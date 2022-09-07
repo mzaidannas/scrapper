@@ -10,9 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_04_102240) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_07_030838) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "tag_groups", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.string "slug"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.string "slug"
+    t.bigint "tag_group_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tag_group_id"], name: "index_tags_on_tag_group_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "first_name"
