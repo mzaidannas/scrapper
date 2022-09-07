@@ -12,8 +12,6 @@ class Parser
       news_link = link['href'].downcase
       news_headline = link.children.text
       tags.each do |tag|
-        news_link = link['href'].downcase
-        news_headline = link.children.text
         if (news_link && news_link.include?(tag.downcase)) ||
           (news_headline && news_headline.downcase.include?(tag.downcase))
           news_tags.push(tag)
