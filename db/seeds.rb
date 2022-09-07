@@ -4,7 +4,7 @@
 
 tag_group = TagGroup.where(name: 'Software', slug: 'Software'.gsub(/[^0-9a-z ]/i, '').parameterize).first_or_create
 
-tags = ['Java', 'Ruby', 'Rails', 'Linux', 'Apache']
+tags = ['Java', 'Ruby', 'Rails', 'Linux', 'Apache', 'Ubuntu']
 tags.each do |tag|
     Tag.where(name: tag, slug: tag.gsub(/[^0-9a-z ]/i, '').parameterize, tag_group_id: tag_group.id).first_or_create
 end
