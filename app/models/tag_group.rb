@@ -3,4 +3,5 @@ class TagGroup < ApplicationRecord
     validates :slug, uniqueness: true
 
     has_many :tags, dependent: :destroy
+    has_many :sources, dependent: :destroy
 end

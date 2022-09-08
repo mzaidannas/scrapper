@@ -10,9 +10,48 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_07_030838) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_08_031434) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "news_sources", force: :cascade do |t|
+    t.bigint "source_id"
+    t.bigint "scraped_news_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["scraped_news_id"], name: "index_news_sources_on_scraped_news_id"
+    t.index ["source_id"], name: "index_news_sources_on_source_id"
+  end
+
+  create_table "news_tags", force: :cascade do |t|
+    t.bigint "tag_id"
+    t.bigint "scraped_news_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["scraped_news_id"], name: "index_news_tags_on_scraped_news_id"
+    t.index ["tag_id"], name: "index_news_tags_on_tag_id"
+  end
+
+  create_table "scraped_news", force: :cascade do |t|
+    t.string "link"
+    t.string "headline"
+    t.text "description"
+    t.string "slug"
+    t.datetime "datetime"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "sources", force: :cascade do |t|
+    t.string "name"
+    t.string "url"
+    t.text "description"
+    t.string "slug"
+    t.bigint "tag_group_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tag_group_id"], name: "index_sources_on_tag_group_id"
+  end
 
   create_table "tag_groups", force: :cascade do |t|
     t.string "name"
