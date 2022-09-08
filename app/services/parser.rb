@@ -1,11 +1,12 @@
 # parser.rb
+require 'digest/md5'
 
 class Parser
 
-  def self.parse(url, links, type = 'Software')
+  def self.parse(url, links, tag_group = 'Software')
     news = []
     date = DateTime.current
-    tags = TagGroup.where(name: type).first.tags.pluck(:name)
+    tags = TagGroup.where(name: tag_group).first.tags.pluck(:name)
 
     links.each do |link|
       news_tags = []
@@ -18,7 +19,15 @@ class Parser
        end
       end
       unless news_tags.empty?
-        news.push({ datetime: date, news: { link: generate_url(url,news_link), name: news_headline }, tags: news_tags })
+        link_url = generate_url(url,news_link)
+        news.push({ 
+          datetime: date, 
+          news: { 
+            slug: Digest::MD5.hexdigest(link_url), 
+            link: link_url, 
+            name: news_headline }, 
+          tags: news_tags 
+        })
       end
     end
     news
