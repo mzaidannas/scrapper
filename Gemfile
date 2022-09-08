@@ -33,8 +33,12 @@ gem "jbuilder"
 # Use Redis adapter to run Action Cable in production
 gem "redis", "~> 4.0"
 
+gem 'sidekiq'
+
 gem "devise", github: "heartcombo/devise", ref: "f8d1ea90bc3"
 gem "letter_opener", group: :development
+
+gem 'nokogiri'
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
