@@ -1,0 +1,101 @@
+version: '3.7'
+
+# To access data postgres and redis writes within container from host machine
+volumes:
+  postgres_data: {}
+  redis_data: {}
+  gem_cache: {}
+  node_modules: {}
+
+services:
+  postgres:
+    image: postgres:alpine
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-password}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:alpine
+    restart: always
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+
+  esbuild:
+    image: scrapper
+    environment:
+      NODE_ENV: ${NODE_ENV:-development}
+    env_file: .env
+    volumes:
+      - .:/var/www/scrapper
+      - node_modules:/var/www/scrapper/node_modules
+    command: yarn build --watch
+
+  tailwind:
+    image: scrapper
+    environment:
+      NODE_ENV: ${NODE_ENV:-development}
+    env_file: .env
+    volumes:
+      - .:/var/www/scrapper
+      - node_modules:/var/www/scrapper/node_modules
+    command: yarn build:css --watch
+
+  app:
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    build:
+      context: .
+      dockerfile: ./docker/app/Dockerfile
+      args:
+        RAILS_ENV: ${RAILS_ENV:-development}
+    image: scrapper
+    depends_on:
+      - postgres
+      - redis
+      - esbuild
+      - tailwind
+    environment:
+      RAILS_ENV: ${RAILS_ENV:-development}
+    env_file: .env
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/var/www/scrapper
+      - gem_cache:/usr/local/bundle/gems
+      - node_modules:/var/www/scrapper/node_modules
+    entrypoint: docker/app/entrypoint.sh
+    # dont use entrypoint in production or staging
+    command: bundle exec rails server -b 0.0.0.0
+
+  worker:
+    image: scrapper
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      RAILS_ENV: ${RAILS_ENV:-development}
+    env_file: .env
+    volumes:
+      - .:/var/www/scrapper
+      - gem_cache:/usr/local/bundle/gems
+      - node_modules:/var/www/scrapper/node_modules
+    command: bundle exec sidekiq -C config/sidekiq.yml
+
+  web:
+    build:
+      context: .
+      dockerfile: ./docker/web/Dockerfile
+      args:
+        RAILS_ENV: ${RAILS_ENV:-development}
+    depends_on:
+      - app
+    ports:
+      - 80:80
+    volumes:
+      - ./public:/var/www/scrapper/public
