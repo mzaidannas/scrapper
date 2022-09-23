@@ -3,31 +3,23 @@
     <div class="bg-white px-6 py-8 rounded shadow-md text-black w-full">
       <h1 class="mb-8 text-3xl text-center">Sign up</h1>
       <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-        <input
-          type="text"
-          class="block border border-gray-200 w-full p-3 rounded mb-4"
-          name="fullname"
-          placeholder="Full Name" />
+        <%= render "devise/shared/error_messages", resource: resource %>
+        <%= f.text_field :name, placeholder: "Full Name", class: "block border border-gray-200 w-full p-3 rounded mb-4" %>
 
-        <input
-          type="text"
-          class="block border border-gray-200 w-full p-3 rounded mb-4"
-          name="email"
-          placeholder="Email"
-          autocomplete="email" />
+        <%= f.email_field :email, placeholder: "Email", autofocus: true, autocomplete: "email", class: "block border border-gray-200 w-full p-3 rounded mb-4" %>
 
-        <input
-          type="password"
-          class="block border border-gray-200 w-full p-3 rounded mb-4"
-          name="password"
-          placeholder="Password"
-          autocomplete="new-password" />
-        <input
-          type="password"
-          class="block border border-gray-200 w-full p-3 rounded mb-4"
-          name="password_confirmation"
-          placeholder="Confirm Password"
-          autocomplete="new-password" />
+        <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+          <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+        <% end %>
+
+        <i>(leave blank if you don't want to change it)</i><br />
+        <%= f.password_field :password, placeholder: "Password", autocomplete: "new-password", class: "block border border-gray-200 w-full p-3 rounded mb-4" %>
+        <% if @minimum_password_length %>
+          <br />
+          <em><%= @minimum_password_length %> characters minimum</em>
+        <% end %>
+
+        <%= f.password_field :password_confirmation, placeholder: "Confirm Password", autocomplete: "new-password", class: "block border border-gray-200 w-full p-3 rounded mb-4" %>
 
         <button
           type="submit"

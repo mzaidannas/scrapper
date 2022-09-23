@@ -12,6 +12,6 @@ class Source < ApplicationRecord
   end
 
   def tag_names
-    [tag.name]
+    tag.present? ? [tag.name] : []
   end
 end
