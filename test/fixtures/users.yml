@@ -1,13 +1,11 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  first_name: MyString
-  last_name: MyString
-  admin: MyString
-  last_seen_at: MyString
+  name: MyString
+  user_type: admin
+  last_seen_at: <%= Time.current %>
 
 two:
-  first_name: MyString
-  last_name: MyString
-  admin: MyString
-  last_seen_at: MyString
+  name: MyString
+  user_type: admin
+  last_seen_at: <%= Time.current %>

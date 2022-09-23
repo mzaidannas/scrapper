@@ -9,7 +9,7 @@ volumes:
 
 services:
   postgres:
-    image: postgres:alpine
+    image: citusdata/citus:alpine
     restart: always
     environment:
       POSTGRES_PASSWORD: ${DB_PASSWORD:-password}

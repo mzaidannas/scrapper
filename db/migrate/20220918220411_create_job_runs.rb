@@ -1,0 +1,27 @@
+class CreateJobRuns < ActiveRecord::Migration[7.0]
+  def up
+    enable_extension :citus
+    create_enum :job_statuses, %w[pending success error warning]
+    execute <<-SQL
+      CREATE TABLE job_runs (
+          id bigserial NOT NULL,
+          name character varying(256) NOT NULL,
+          status job_statuses NOT NULL DEFAULT 'pending',
+          completed_at timestamp,
+          created_at timestamp NOT NULL,
+          updated_at timestamp NOT NULL,
+          error_message text,
+          primary key (name, created_at)
+      ) PARTITION BY RANGE (created_at);
+    SQL
+    execute <<-SQL
+      SELECT create_distributed_table('job_runs', 'name');
+    SQL
+  end
+
+  def down
+    drop_table :job_runs, force: :cascade
+    drop_enum :job_statuses
+    disable_extension :citus
+  end
+end

@@ -4,7 +4,8 @@ class CreateTags < ActiveRecord::Migration[7.0]
       t.string :name
       t.text :description
       t.string :slug, unique: true
-      t.references :tag_group, index: true
+      t.integer :level, index: true, default: 0
+      t.references :parent, index: true, optional: true
 
       t.timestamps
     end

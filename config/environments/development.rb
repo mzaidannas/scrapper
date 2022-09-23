@@ -22,11 +22,12 @@ Rails.application.configure do
 
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
+  config.cache_store = :redis_cache_store, {url: ENV.fetch('REDIS_CACHE_URL', 'redis://localhost:6379/0')}
+
   if Rails.root.join("tmp/caching-dev.txt").exist?
     config.action_controller.perform_caching = true
     config.action_controller.enable_fragment_cache_logging = true
 
-    config.cache_store = :memory_store
     config.public_file_server.headers = {
       "Cache-Control" => "public, max-age=#{2.days.to_i}"
     }
@@ -43,6 +44,11 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = true
 
   config.action_mailer.perform_caching = false
+
+  # Logging in development
+  config.logger = ActiveSupport::Logger.new(STDOUT)
+
+  config.log_level = ENV.fetch('LOG_LEVEL', :debug)
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log

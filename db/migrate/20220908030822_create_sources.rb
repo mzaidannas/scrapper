@@ -5,7 +5,7 @@ class CreateSources < ActiveRecord::Migration[7.0]
       t.string :url
       t.text :description
       t.string :slug, unique: true
-      t.references :tag_group, index: true
+      t.references :tag, index: true
 
       t.timestamps
     end

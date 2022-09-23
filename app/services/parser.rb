@@ -3,10 +3,10 @@ require 'digest/md5'
 
 class Parser
 
-  def self.parse(url, links, tag_group = 'Software')
+  def self.parse(url, links, tag = 'Software')
     news = []
-    date = DateTime.current
-    tags = TagGroup.where(name: tag_group).first.tags.pluck(:name)
+    date = Time.current
+    tags = Tag.find_by(name: tag).self_and_descendants.pluck(:name)
 
     links.each do |link|
       news_tags = []
@@ -20,20 +20,20 @@ class Parser
       end
       unless news_tags.empty?
         link_url = generate_url(url,news_link)
-        news.push({ 
-          datetime: date, 
-          news: { 
-            slug: Digest::MD5.hexdigest(link_url), 
-            link: link_url, 
-            name: news_headline }, 
-          tags: news_tags 
+        news.push({
+          datetime: date,
+          news: {
+            slug: Digest::MD5.hexdigest(link_url),
+            link: link_url,
+            name: news_headline },
+          tags: news_tags
         })
       end
     end
     news
   end
 
-  def self.generate_url(url,path)
+  def self.generate_url(url, path)
     if path.start_with?("http")
       return path
     else

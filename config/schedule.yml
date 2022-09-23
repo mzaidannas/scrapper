@@ -1,0 +1,12 @@
+scrape_phoronix:
+  cron: "0 0 * * *"
+  class: "ScrapeSourceJob"
+  queue: default
+  args:
+    - Phoronix
+    - Software
+
+job_runs_partitioning:
+  cron: "0 0 1 * *"
+  class: "JobRunsMaintenanceJob"
+  queue: default

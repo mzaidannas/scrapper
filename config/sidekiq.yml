@@ -1,0 +1,25 @@
+# See also config/initializers/sidekiq.rb
+
+# default concurrency
+:concurrency:  10
+
+:pidfile: ./tmp/pids/sidekiq.pid
+:verbose: false
+:queues:
+  - default
+  - searchkick
+  - schedulejobs
+  - data_operation
+  - mailer
+  - cronsms
+  - promosms
+  - accounts
+  - reports
+
+
+
+:development:
+  :concurrency:  1
+
+:limits:
+    data_operation: 1

@@ -1,9 +1,17 @@
 class Source < ApplicationRecord
-    validates :name, :slug, presence: true
-    validates :slug, uniqueness: true
-    
-    belongs_to :tag_group
+  validates :name, :slug, presence: true
+  validates :slug, uniqueness: true
 
-    has_many :news_sources
-    has_many :scraped_news, through: :news_sources
+  belongs_to :tag
+
+  has_many :news_sources
+  has_many :scraped_news, through: :news_sources
+
+  def tag_name=(tag_names)
+    self.tag = Tag.find_by(name: tag_names.first)
+  end
+
+  def tag_names
+    [tag.name]
+  end
 end

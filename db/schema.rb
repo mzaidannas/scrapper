@@ -10,9 +10,80 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_08_031434) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_19_105356) do
   # These are extensions that must be enabled in order to support this database
+  enable_extension "citus"
+  enable_extension "pg_trgm"
   enable_extension "plpgsql"
+
+  # Custom types defined in this database.
+  # Note that some types may not work with other database engines. Be careful if changing database.
+  create_enum "citus_copy_format", ["csv", "binary", "text"]
+  create_enum "distribution_type", ["hash", "range", "append"]
+  create_enum "job_statuses", ["pending", "success", "error", "warning"]
+  create_enum "noderole", ["primary", "secondary", "unavailable"]
+  create_enum "shard_transfer_mode", ["auto", "force_logical", "block_writes"]
+  create_enum "user_types", ["admin"]
+
+  create_table "job_runs", primary_key: ["name", "created_at"], force: :cascade do |t|
+    t.bigserial "id", null: false
+    t.string "name", limit: 256, null: false
+    t.enum "status", default: "pending", null: false, enum_type: "job_statuses"
+    t.datetime "completed_at", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.text "error_message"
+    t.index ["completed_at"], name: "index_job_runs_on_completed_at"
+    t.index ["created_at"], name: "index_job_runs_on_created_at"
+    t.index ["id"], name: "index_job_runs_on_id"
+    t.index ["name"], name: "index_job_runs_on_name_gin", opclass: :gin_trgm_ops, using: :gin
+    t.index ["name"], name: "index_job_runs_on_name_hash", using: :hash
+  end
+
+  create_table "job_runs_y2022_m10", primary_key: ["name", "created_at"], force: :cascade do |t|
+    t.bigint "id", default: -> { "nextval('job_runs_id_seq'::regclass)" }, null: false
+    t.string "name", limit: 256, null: false
+    t.enum "status", default: "pending", null: false, enum_type: "job_statuses"
+    t.datetime "completed_at", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.text "error_message"
+    t.index ["completed_at"], name: "job_runs_y2022_m10_completed_at_idx"
+    t.index ["created_at"], name: "job_runs_y2022_m10_created_at_idx"
+    t.index ["id"], name: "job_runs_y2022_m10_id_idx"
+    t.index ["name"], name: "job_runs_y2022_m10_name_idx", using: :hash
+    t.index ["name"], name: "job_runs_y2022_m10_name_idx1", opclass: :gin_trgm_ops, using: :gin
+  end
+
+  create_table "job_runs_y2022_m8", primary_key: ["name", "created_at"], force: :cascade do |t|
+    t.bigint "id", default: -> { "nextval('job_runs_id_seq'::regclass)" }, null: false
+    t.string "name", limit: 256, null: false
+    t.enum "status", default: "pending", null: false, enum_type: "job_statuses"
+    t.datetime "completed_at", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.text "error_message"
+    t.index ["completed_at"], name: "job_runs_y2022_m8_completed_at_idx"
+    t.index ["created_at"], name: "job_runs_y2022_m8_created_at_idx"
+    t.index ["id"], name: "job_runs_y2022_m8_id_idx"
+    t.index ["name"], name: "job_runs_y2022_m8_name_idx", using: :hash
+    t.index ["name"], name: "job_runs_y2022_m8_name_idx1", opclass: :gin_trgm_ops, using: :gin
+  end
+
+  create_table "job_runs_y2022_m9", primary_key: ["name", "created_at"], force: :cascade do |t|
+    t.bigint "id", default: -> { "nextval('job_runs_id_seq'::regclass)" }, null: false
+    t.string "name", limit: 256, null: false
+    t.enum "status", default: "pending", null: false, enum_type: "job_statuses"
+    t.datetime "completed_at", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.text "error_message"
+    t.index ["completed_at"], name: "job_runs_y2022_m9_completed_at_idx"
+    t.index ["created_at"], name: "job_runs_y2022_m9_created_at_idx"
+    t.index ["id"], name: "job_runs_y2022_m9_id_idx"
+    t.index ["name"], name: "job_runs_y2022_m9_name_idx", using: :hash
+    t.index ["name"], name: "job_runs_y2022_m9_name_idx1", opclass: :gin_trgm_ops, using: :gin
+  end
 
   create_table "news_sources", force: :cascade do |t|
     t.bigint "source_id"
@@ -47,35 +118,28 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_08_031434) do
     t.string "url"
     t.text "description"
     t.string "slug"
-    t.bigint "tag_group_id"
+    t.bigint "tag_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["tag_group_id"], name: "index_sources_on_tag_group_id"
-  end
-
-  create_table "tag_groups", force: :cascade do |t|
-    t.string "name"
-    t.text "description"
-    t.string "slug"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.index ["tag_id"], name: "index_sources_on_tag_id"
   end
 
   create_table "tags", force: :cascade do |t|
     t.string "name"
     t.text "description"
     t.string "slug"
-    t.bigint "tag_group_id"
+    t.integer "level", default: 0
+    t.bigint "parent_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["tag_group_id"], name: "index_tags_on_tag_group_id"
+    t.index ["level"], name: "index_tags_on_level"
+    t.index ["parent_id"], name: "index_tags_on_parent_id"
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "first_name"
-    t.string "last_name"
-    t.string "admin"
-    t.string "last_seen_at"
+    t.string "name"
+    t.enum "user_type", default: "admin", null: false, enum_type: "user_types"
+    t.datetime "last_seen_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "email", default: "", null: false
@@ -89,6 +153,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_08_031434) do
     t.string "current_sign_in_ip"
     t.string "last_sign_in_ip"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["name"], name: "index_users_on_name_gin", opclass: :gin_trgm_ops, using: :gin
+    t.index ["name"], name: "index_users_on_name_hash", using: :hash
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
