@@ -7,8 +7,7 @@ Rails.application.routes.draw do
     mount Sidekiq::Web, at: '/sidekiq'
     mount Avo::Engine, at: Avo.configuration.root_path
   end
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")
-  root Avo.configuration.root_path
+  root to: "avo/home#index"
 end
