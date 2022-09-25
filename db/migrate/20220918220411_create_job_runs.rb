@@ -10,7 +10,8 @@ class CreateJobRuns < ActiveRecord::Migration[7.0]
           completed_at timestamp,
           created_at timestamp NOT NULL,
           updated_at timestamp NOT NULL,
-          error_message text,
+          error_message character varying(256),
+          error_detail text,
           primary key (name, created_at)
       ) PARTITION BY RANGE (created_at);
     SQL

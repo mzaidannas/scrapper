@@ -9,5 +9,6 @@ class ScrapeSourceJob
     links = Scraper.crawl(url)
     news = Parser.parse(url, links, tag_name)
     status = Writer.write(source.slug, news, tag_name)
+    nil
   end
 end

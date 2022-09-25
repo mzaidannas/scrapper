@@ -14,12 +14,12 @@ class Writer
 
         # save related tags
         n[:tags].each do |tag|
-          news_model.news_tags.new(tag_id: tags[tag])
+          news_model.news_tags.find_or_initialize_by(tag_id: tags[tag])
         end
 
         # save related sources
         source = Source.find_by(slug: source_slug)
-        news_model.news_sources.new(source_id: source.id)
+        news_model.news_sources.find_or_initialize_by(source_id: source.id)
 
         news_model.save!
       end

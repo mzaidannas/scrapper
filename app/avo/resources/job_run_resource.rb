@@ -12,7 +12,8 @@ class JobRunResource < Avo::BaseResource
     failed_when: [:error, :warning],
     loading_when: [:pending],
     readonly: true
-  field :error_message, as: :text, readonly: true
+  field :error_message, as: :text, readonly: true, only_on: [:index]
+  field :error_detail, as: :textarea, readonly: true, hide_on: [:index]
   field :completed_at, as: :date_time, format: "yyyy-LL-dd TT", timezone: "Asia/Karachi", readonly: true
   field :created_at, as: :date_time, format: "yyyy-LL-dd TT", timezone: "Asia/Karachi", readonly: true
   field :updated_at, as: :date_time, format: "yyyy-LL-dd TT", timezone: "Asia/Karachi", readonly: true

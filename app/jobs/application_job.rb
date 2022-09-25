@@ -15,13 +15,13 @@ module ApplicationJob
     true
   rescue => e
     Rails.logger.debug e.full_message
-    job_run.update(status: :error, error_message: e.full_message)
+    job_run.update(status: :error, error_message: e.message, error_detail: e.full_message)
   end
 
   private
 
   def record_job_run(job_run, msg = '')
-    params = {status: :success, completed_at: Time.current, error_message: msg}.compact_blank!
+    params = {status: msg.blank? ? :success : :warning, completed_at: Time.current, error_message: msg}.compact_blank!
     job_run.update(params)
   end
 end

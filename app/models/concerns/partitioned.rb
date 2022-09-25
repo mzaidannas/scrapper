@@ -30,7 +30,7 @@ module Partitioned
       ActiveRecord::Base.connection.execute <<-SQL
         CALL alter_old_partitions_set_access_method(
           '#{table_name}',
-          date_trunc('#{partition_freq}', now() + interval '1 #{partition_freq}') /* older_than */,
+          date_trunc('#{partition_freq}', now() - interval '1 #{partition_freq}') /* older_than */,
           'columnar'
         );
       SQL
@@ -60,7 +60,7 @@ module Partitioned
     ActiveRecord::Base.connection.execute <<-SQL
       CALL alter_old_partitions_set_access_method(
         '#{table_name}',
-        date_trunc('#{partition_freq}', now() + interval '1 #{partition_freq}') /* older_than */,
+        date_trunc('#{partition_freq}', now() - interval '1 #{partition_freq}') /* older_than */,
         'columnar'
       );
     SQL

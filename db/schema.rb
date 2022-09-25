@@ -32,7 +32,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_19_105356) do
     t.datetime "completed_at", precision: nil
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.text "error_message"
+    t.string "error_message", limit: 256
+    t.text "error_detail"
     t.index ["completed_at"], name: "index_job_runs_on_completed_at"
     t.index ["created_at"], name: "index_job_runs_on_created_at"
     t.index ["id"], name: "index_job_runs_on_id"
@@ -47,7 +48,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_19_105356) do
     t.datetime "completed_at", precision: nil
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.text "error_message"
+    t.string "error_message", limit: 256
+    t.text "error_detail"
     t.index ["completed_at"], name: "job_runs_y2022_m10_completed_at_idx"
     t.index ["created_at"], name: "job_runs_y2022_m10_created_at_idx"
     t.index ["id"], name: "job_runs_y2022_m10_id_idx"
@@ -62,7 +64,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_19_105356) do
     t.datetime "completed_at", precision: nil
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.text "error_message"
+    t.string "error_message", limit: 256
+    t.text "error_detail"
     t.index ["completed_at"], name: "job_runs_y2022_m8_completed_at_idx"
     t.index ["created_at"], name: "job_runs_y2022_m8_created_at_idx"
     t.index ["id"], name: "job_runs_y2022_m8_id_idx"
@@ -77,7 +80,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_19_105356) do
     t.datetime "completed_at", precision: nil
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.text "error_message"
+    t.string "error_message", limit: 256
+    t.text "error_detail"
     t.index ["completed_at"], name: "job_runs_y2022_m9_completed_at_idx"
     t.index ["created_at"], name: "job_runs_y2022_m9_created_at_idx"
     t.index ["id"], name: "job_runs_y2022_m9_id_idx"
