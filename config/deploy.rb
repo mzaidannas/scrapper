@@ -15,14 +15,14 @@ set :rails_env, 'production'
 
 set :application_name, 'scrapper'
 set :domain, 'scrapper.mzaidannas.me'
-set :deploy_to, '/home/ubuntu/dev-news'
+set :deploy_to, '/home/ubuntu/scrapper'
 set :repository, 'git@github.com:suhprod/scrapper.git'
 set :branch, 'main'
 
 # Optional settings:
 set :user, 'ubuntu'          # Username in the server to SSH to.
 set :port, '22'              # SSH port number.
-set :forward_agent, true     # SSH forward_agent.
+# set :forward_agent, true     # SSH forward_agent.
 
 # Shared dirs and files will be symlinked into the app-folder by the 'deploy:link_shared_paths' step.
 # Some plugins already add folders to shared_dirs like `mina/rails` add `public/assets`, `vendor/bundle` and many more
