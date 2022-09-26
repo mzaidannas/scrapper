@@ -4,9 +4,9 @@
       <h1 class="mb-8 text-3xl text-center">Log In</h1>
       <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
         <%= render "devise/shared/error_messages", resource: resource %>
-        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "block border border-gray-200 w-full p-3 rounded mb-4" %>
+        <%= f.email_field :email, placeholder: "Email", autofocus: true, autocomplete: "email", class: "block border border-gray-200 w-full p-3 rounded mb-4" %>
 
-        <%= f.password_field :password, autocomplete: "current-password", class: "block border border-gray-200 w-full p-3 rounded mb-4" %>
+        <%= f.password_field :password, placeholder: "Password", autocomplete: "current-password", class: "block border border-gray-200 w-full p-3 rounded mb-4" %>
 
         <% if devise_mapping.rememberable? %>
           <div class="flex items-start">
