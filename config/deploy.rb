@@ -66,8 +66,9 @@ task :setup do
   command %(rbenv install 3.1.2 --skip-existing)
   command %(rbenv local 3.1.2)
   command %(nodenv install 18.9.0 --skip-existing)
-  # command %{rvm install ruby-3.1.2}
+  command %(nodenv local 18.9.0)
   command %(rbenv exec gem install bundler -v 2.3.21)
+  command %(nodenv exec npm install -g yarn)
 
   # Puma needs a place to store its pid file and socket file.
   command %(mkdir -p "#{fetch(:deploy_to)}/#{fetch(:shared_path)}/tmp/sockets")
