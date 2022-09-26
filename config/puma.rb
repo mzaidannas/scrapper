@@ -64,4 +64,6 @@ unless ENV.fetch('RAILS_ENV', 'development') == 'development'
     # See: https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server#on-worker-boot
     ActiveRecord::Base.establish_connection
   end
+
+  daemonize
 end
