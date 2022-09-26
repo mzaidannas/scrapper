@@ -32,19 +32,19 @@ set :shared_files, fetch(:shared_files, []).push('config/database.yml', '.env')
 
 # set :nodenv_path, '$HOME/.nodenv'
 
-# task :'nodenv:load' do
-#   comment %(Loading nodenv)
-#   command %(export NODENV_ROOT="#{fetch(:nodenv_path)}")
-#   command %(export PATH="#{fetch(:nodenv_path)}/bin:$PATH")
-#   command %(
-#     if ! which nodenv >/dev/null; then
-#       echo "! nodenv not found"
-#       echo "! If nodenv is installed, check your :nodenv_path setting."
-#       exit 1
-#     fi
-#   )
-#   command %{eval "$(nodenv init -)"}
-# end
+task :'nodenv:load' do
+  comment %(Loading nodenv)
+  command %(export NODENV_ROOT="#{fetch(:nodenv_path)}")
+  command %(export PATH="#{fetch(:nodenv_path)}/bin:$PATH")
+  command %(
+    if ! which nodenv >/dev/null; then
+      echo "! nodenv not found"
+      echo "! If nodenv is installed, check your :nodenv_path setting."
+      exit 1
+    fi
+  )
+  command %{eval "$(nodenv init -)"}
+end
 
 # This task is the environment that is loaded for all remote run commands, such as
 # `mina deploy` or `mina rake`.
@@ -52,7 +52,7 @@ task :remote_environment do
   # If you're using rbenv, use this to load the rbenv environment.
   # Be sure to commit your .ruby-version or .rbenv-version to your repository.
   invoke :'rbenv:load'
-  # invoke :'nodenv:load'
+  invoke :'nodenv:load'
 
   # For those using RVM, use this to load an RVM version@gemset.
   # invoke :'rvm:use', 'ruby-3.1.1@default'
@@ -65,8 +65,8 @@ task :setup do
   command %(git -C ~/.rbenv/plugins/ruby-build pull)
   command %(rbenv install 3.1.2 --skip-existing)
   command %(rbenv local 3.1.2)
-  # command %(nodenv install 17.7.1 --skip-existing)
-  # command %{rvm install ruby-3.1.1}
+  command %(nodenv install 18.9.0 --skip-existing)
+  # command %{rvm install ruby-3.1.2}
   command %(rbenv exec gem install bundler -v 2.3.21)
 
   # Puma needs a place to store its pid file and socket file.
