@@ -30,7 +30,7 @@ set :port, '22'              # SSH port number.
 set :shared_dirs, fetch(:shared_dirs, []).push('public/assets', 'tmp/pids', 'tmp/sockets')
 set :shared_files, fetch(:shared_files, []).push('config/database.yml', '.env')
 
-# set :nodenv_path, '$HOME/.nodenv'
+set :nodenv_path, '$HOME/.nodenv'
 
 task :'nodenv:load' do
   comment %(Loading nodenv)
