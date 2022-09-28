@@ -27,7 +27,7 @@ environment ENV.fetch('RAILS_ENV', 'development')
 pidfile ENV.fetch('PIDFILE', 'tmp/pids/server.pid')
 
 # State path for control program (pumactl) to control puma process
-state_path pidfile ENV.fetch('STATEFILE', 'tmp/pids/puma.state')
+state_path pidfile ENV.fetch('STATEFILE', 'tmp/sockets/puma.state')
 
 # Allow puma to be restarted by `rails restart` command.
 plugin :tmp_restart

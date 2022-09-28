@@ -109,8 +109,8 @@ group :development do
   gem "rubocop-rails", require: false
 
   # Deployment
-  gem "mina"
-  gem "mina-puma"
+  gem "mina", require: false
+  gem "mina-puma", require: false
 end
 
 group :test do
