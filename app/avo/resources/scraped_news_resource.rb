@@ -1,12 +1,12 @@
 class ScrapedNewsResource < Avo::BaseResource
   self.title = :slug
   self.includes = []
-  # self.search_query = -> do
-  #   scope.ransack(id_eq: params[:q], m: "or").result(distinct: false)
-  # end
+  self.search_query = -> do
+    scope.ransack(id_eq: params[:q], headline_cont: params[:q], m: "or").result(distinct: false)
+  end
 
   field :id, as: :id
-  field :link, as: :text, format_using: -> (url) { link_to(url, url, target: '_blank') }
+  field :link, as: :text
   field :headline, as: :text
   field :description, as: :trix
   field :slug, as: :text
