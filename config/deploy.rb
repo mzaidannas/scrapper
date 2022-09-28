@@ -95,7 +95,7 @@ task :deploy do
     on :launch do
       in_path(fetch(:current_path)) do
         command %(mkdir -p tmp/)
-        command %(bundle exec pumactl phased-restart)
+        invoke :'puma:phased_restart'
       end
     end
   end
