@@ -4,6 +4,7 @@ require 'mina/git'
 require 'mina/rbenv'  # for rbenv support. (https://rbenv.org)
 # require 'mina/rvm'    # for rvm support. (https://rvm.io)
 require 'mina/puma'
+require 'mina_sidekiq/tasks'
 
 # Basic settings:
 #   domain       - The hostname to SSH to.
@@ -70,11 +71,13 @@ task :setup do
   command %(rbenv exec gem install bundler -v 2.3.21)
   command %(nodenv exec npm install -g yarn)
 
-  # Puma needs a place to store its pid file and socket file.
+  # Puma/Sidekiq needs a place to store its pid file and socket file.
   command %(mkdir -p "#{fetch(:deploy_to)}/#{fetch(:shared_path)}/tmp/sockets")
   command %(chmod g+rx,u+rwx "#{fetch(:deploy_to)}/#{fetch(:shared_path)}/tmp/sockets")
   command %(mkdir -p "#{fetch(:deploy_to)}/#{fetch(:shared_path)}/tmp/pids")
   command %(chmod g+rx,u+rwx "#{fetch(:deploy_to)}/#{fetch(:shared_path)}/tmp/pids")
+  command %(mkdir -p "#{fetch(:deploy_to)}/#{fetch(:shared_path)}/log")
+  command %(chmod g+rx,u+rwx "#{fetch(:deploy_to)}/#{fetch(:shared_path)}/log")
 end
 
 desc 'Deploys the current version to the server.'
@@ -85,17 +88,18 @@ task :deploy do
     # Put things that will set up an empty directory into a fully set-up
     # instance of your project.
     invoke :'git:clone'
+    invoke :'sidekiq:quiet'
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
     invoke :'rails:db_create'
     invoke :'rails:db_migrate'
     invoke :'rails:assets_precompile'
     invoke :'deploy:cleanup'
-
     on :launch do
       in_path(fetch(:current_path)) do
         command %(mkdir -p tmp/)
         invoke :'puma:restart'
+        invoke :'sidekiq:restart'
       end
     end
   end

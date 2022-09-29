@@ -111,6 +111,7 @@ group :development do
   # Deployment
   gem "mina", require: false
   gem "mina-puma", require: false
+  gem "mina-sidekiq", require: false
 end
 
 group :test do
