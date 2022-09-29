@@ -6,6 +6,63 @@ scrape_phoronix:
     - Phoronix
     - Software
 
+scrape_arstechnica:
+  cron: "0 0 * * *"
+  class: "ScrapeSourceJob"
+  queue: default
+  args:
+    - Arstechnica
+    - Software
+
+scrape_techcrunch:
+  cron: "0 0 * * *"
+  class: "ScrapeSourceJob"
+  queue: default
+  args:
+    - TechCrunch
+    - Software
+
+scrape_engadget:
+  cron: "0 0 * * *"
+  class: "ScrapeSourceJob"
+  queue: default
+  args:
+    - Engadget
+    - Software
+
+scrape_thenextweb:
+  cron: "0 0 * * *"
+  class: "ScrapeSourceJob"
+  queue: default
+  args:
+    - TheNextWeb
+    - Software
+
+scrape_wired:
+  cron: "0 0 * * *"
+  class: "ScrapeSourceJob"
+  queue: default
+  args:
+    - Wired
+    - Software
+
+scrape_do:
+  cron: "0 0 * * *"
+  class: "ScrapeSourceJob"
+  queue: default
+  args:
+    - Digital Ocean Community
+    - Software
+
+scrape_hackernews:
+  cron: "0 0 * * *"
+  class: "ScrapeSourceJob"
+  queue: default
+  args:
+    - Hacker News
+    - Software
+
+
 job_runs_partitioning:
   cron: "0 0 1 * *"
   class: "JobRunsMaintenanceJob"
