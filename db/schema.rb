@@ -12,20 +12,11 @@
 
 ActiveRecord::Schema[7.0].define(version: 2022_09_19_105356) do
   # These are extensions that must be enabled in order to support this database
-  unless Rails.env.development?
-    enable_extension "citus"
-  end
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
 
   # Custom types defined in this database.
   # Note that some types may not work with other database engines. Be careful if changing database.
-  unless Rails.env.development?
-    create_enum "citus_copy_format", ["csv", "binary", "text"]
-    create_enum "distribution_type", ["hash", "range", "append"]
-    create_enum "noderole", ["primary", "secondary", "unavailable"]
-    create_enum "shard_transfer_mode", ["auto", "force_logical", "block_writes"]
-  end
   create_enum "job_statuses", ["pending", "success", "error", "warning"]
   create_enum "user_types", ["admin"]
 
@@ -43,6 +34,54 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_19_105356) do
     t.index ["id"], name: "index_job_runs_on_id"
     t.index ["name"], name: "index_job_runs_on_name_gin", opclass: :gin_trgm_ops, using: :gin
     t.index ["name"], name: "index_job_runs_on_name_hash", using: :hash
+  end
+
+  create_table "job_runs_y2022_m10", primary_key: ["name", "created_at"], force: :cascade do |t|
+    t.bigint "id", default: -> { "nextval('job_runs_id_seq'::regclass)" }, null: false
+    t.string "name", limit: 256, null: false
+    t.enum "status", default: "pending", null: false, enum_type: "job_statuses"
+    t.datetime "completed_at", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.string "error_message", limit: 256
+    t.text "error_detail"
+    t.index ["completed_at"], name: "job_runs_y2022_m10_completed_at_idx"
+    t.index ["created_at"], name: "job_runs_y2022_m10_created_at_idx"
+    t.index ["id"], name: "job_runs_y2022_m10_id_idx"
+    t.index ["name"], name: "job_runs_y2022_m10_name_idx", using: :hash
+    t.index ["name"], name: "job_runs_y2022_m10_name_idx1", opclass: :gin_trgm_ops, using: :gin
+  end
+
+  create_table "job_runs_y2022_m8", primary_key: ["name", "created_at"], force: :cascade do |t|
+    t.bigint "id", default: -> { "nextval('job_runs_id_seq'::regclass)" }, null: false
+    t.string "name", limit: 256, null: false
+    t.enum "status", default: "pending", null: false, enum_type: "job_statuses"
+    t.datetime "completed_at", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.string "error_message", limit: 256
+    t.text "error_detail"
+    t.index ["completed_at"], name: "job_runs_y2022_m8_completed_at_idx"
+    t.index ["created_at"], name: "job_runs_y2022_m8_created_at_idx"
+    t.index ["id"], name: "job_runs_y2022_m8_id_idx"
+    t.index ["name"], name: "job_runs_y2022_m8_name_idx", using: :hash
+    t.index ["name"], name: "job_runs_y2022_m8_name_idx1", opclass: :gin_trgm_ops, using: :gin
+  end
+
+  create_table "job_runs_y2022_m9", primary_key: ["name", "created_at"], force: :cascade do |t|
+    t.bigint "id", default: -> { "nextval('job_runs_id_seq'::regclass)" }, null: false
+    t.string "name", limit: 256, null: false
+    t.enum "status", default: "pending", null: false, enum_type: "job_statuses"
+    t.datetime "completed_at", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.string "error_message", limit: 256
+    t.text "error_detail"
+    t.index ["completed_at"], name: "job_runs_y2022_m9_completed_at_idx"
+    t.index ["created_at"], name: "job_runs_y2022_m9_created_at_idx"
+    t.index ["id"], name: "job_runs_y2022_m9_id_idx"
+    t.index ["name"], name: "job_runs_y2022_m9_name_idx", using: :hash
+    t.index ["name"], name: "job_runs_y2022_m9_name_idx1", opclass: :gin_trgm_ops, using: :gin
   end
 
   create_table "news_sources", force: :cascade do |t|
