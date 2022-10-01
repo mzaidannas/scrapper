@@ -16,4 +16,5 @@ class ScrapedNewsResource < Avo::BaseResource
   field :updated_at, as: :text, readonly: true
 
   field :tag_names, as: :tags, suggestions: -> { Tag.pluck(:name) }
+  field :source_names, as: :tags, suggestions: -> { Source.pluck(:name) }
 end

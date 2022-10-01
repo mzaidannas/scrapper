@@ -4,7 +4,7 @@ require 'mina/git'
 require 'mina/rbenv'  # for rbenv support. (https://rbenv.org)
 # require 'mina/rvm'    # for rvm support. (https://rvm.io)
 require 'mina/puma'
-require 'mina_sidekiq/tasks'
+# require 'mina_sidekiq/tasks'
 
 # Basic settings:
 #   domain       - The hostname to SSH to.
@@ -30,6 +30,15 @@ set :port, '22'              # SSH port number.
 # run `mina -d` to see all folders and files already included in `shared_dirs` and `shared_files`
 set :shared_dirs, fetch(:shared_dirs, []).push('public/assets', 'tmp/pids', 'tmp/sockets', 'log')
 set :shared_files, fetch(:shared_files, []).push('config/database.yml', '.env')
+
+# For sidekiq systemd service
+# set :init_system, :systemd
+
+# Install service in user directory
+# set :service_unit_path, '/home/ubuntu/.config/systemd/user'
+
+# rbenv bundler path
+# set :bundler_path, '/home/ubuntu/.rbenv/shims/bundler'
 
 set :nodenv_path, '$HOME/.nodenv'
 
@@ -88,7 +97,7 @@ task :deploy do
     # Put things that will set up an empty directory into a fully set-up
     # instance of your project.
     invoke :'git:clone'
-    invoke :'sidekiq:quiet'
+    command %(systemctl --user reload sidekiq-#{fetch(:rails_env)})
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
     invoke :'rails:db_create'
@@ -99,7 +108,7 @@ task :deploy do
       in_path(fetch(:current_path)) do
         command %(mkdir -p tmp/)
         invoke :'puma:restart'
-        invoke :'sidekiq:restart'
+        command %(systemctl --user restart sidekiq-#{fetch(:rails_env)})
       end
     end
   end
