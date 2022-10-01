@@ -11,6 +11,7 @@ class ScrapedNewsResource < Avo::BaseResource
   field :description, as: :trix
   field :slug, as: :text
   field :datetime, as: :date_time
+  field :visible, as: :boolean
   field :created_at, as: :text, readonly: true
   field :updated_at, as: :text, readonly: true
 
