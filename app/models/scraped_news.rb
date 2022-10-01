@@ -18,4 +18,12 @@ class ScrapedNews < ApplicationRecord
   def tag_names
     tags.pluck(:name)
   end
+
+  def source_names=(source_names)
+    self.sources = Source.where(name: source_names)
+  end
+
+  def source_names
+    sources.pluck(:name)
+  end
 end
