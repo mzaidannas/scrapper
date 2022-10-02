@@ -12,6 +12,9 @@ class Parser
     ignored_tags = Tag.where(parent_id: tag_group.id).ignored_tags.pluck(:name)
 
     links.each do |link|
+      next if link.nil? || link['href'].nil? ||
+        link.children.nil? || link.children.text.nil? || link.children.text.empty?
+
       news_link = link['href'].downcase
       news_headline = link.children.text
 
