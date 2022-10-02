@@ -5,7 +5,7 @@ class Parser
 
   def self.parse(url, links, tag = 'Software')
     news = []
-    date = Time.current
+    date = Time.current.to_s(:db)
     tag_group = Tag.where(level: 0, name: tag).first
     tags = Tag.where(parent_id: tag_group.id).valid_tags.pluck(:name)
     tags.push(tag_group.name)
