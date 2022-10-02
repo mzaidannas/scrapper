@@ -6,17 +6,24 @@ tag_group = Tag.where(name: 'Software', slug: 'Software'.gsub(/[^0-9a-z ]/i, '')
 
 # create tags
 tags = %w[
-  Java Ruby Rails PHP Laravel Zend Python Groovy Swift Go Kotlin Matlab TypeScript Scala Script Basic Dart
-  Javascript Angular Vue React V8 Node 
-  Database SQL Postgres SingleStore DB
-  Apache Elasticsearch Nginx Android Ios Redis Bash Terminal Shell Host
-  Linux Ubuntu Windows Azure AWS Mac PC Computer 
+  Java Spring Ruby Rails PHP Laravel Zend Python Groovy Swift Go Kotlin Matlab TypeScript Scala Script Basic Dart Carbon
+  Javascript Angular Vue React V8 Node Framework
+  Database SQL Postgres SingleStore DB Migration CockroachDB NoSQL MySQL
+  DevOps
+  Test
+  Apache Elasticsearch Nginx Android Ios Redis Bash Terminal Shell Host Server Serverless
+  OS Linux Ubuntu Windows Azure AWS Mac PC Computer 
   YouTube Facebook Linkedin Twitter Instagram Snapchat TikTok GitHub
-  Adobe Google Microsoft Oracle Amazon IBM Huawei Samsung Norton Xiaomi 
-  ERP SAP Salesforce CRM CAD Web Desktop Mobile Graphics SAAS Agile Waterfall
-  Soft Hardware Source Piracy Privacy Virus Tech Ecommerce
-  Gaming Game Graphics Audio Video 3d Engine Stadia Xbox PlayStation
-  Developer Development Language Programming Program Architecture Telescope USB UI UX
+  Adobe Google Microsoft Oracle Amazon IBM Huawei Samsung Norton Xiaomi Intel AMD Spotify
+  ERP SAP Salesforce CRM CAD Web Desktop Mobile Graphics SAAS Agile Waterfall Cloud Cloudflare Internet
+  Soft Hardware Source Piracy Privacy Virus Tech Ecommerce System Interview
+  Gaming Game Graphics Audio Video 3d Engine Stadia Xbox PlayStation Wii VR
+  Developer Development Language Programming Program Architecture Telescope USB UI UX Bot
+  Byte Bit Mail Data Information
+  Encrypt Dycrypt Hack Torrent
+  Crypto Blockchain 
+  NPM Composer Yarn
+  Browser FTP Chrome Firefox Safari chromium 
 ]
 tags.each do |tag|
   Tag.where(name: tag, slug: tag.gsub(/[^0-9a-z ]/i, '').parameterize, parent: tag_group).first_or_create!
@@ -24,7 +31,7 @@ end
 
 # create TO IGNORE tags
 tags = %w[
-  tiktok.com twitter.com facebook.com instagram.com reddit.com youtube.com snapchat.com github.com
+  tiktok.com twitter.com facebook.com instagram.com reddit.com youtube.com snapchat.com github.com spotify.com
   privacy\ policy Cookie Ad\ Choices 
   contact\ us feedback Customer\ Care Newsletter
   Featured\ Videos Featured\ News
@@ -45,6 +52,10 @@ sources = [
   { name: 'Wired', url: 'https://www.wired.com' },
   { name: 'Digital Ocean Community', url: 'https://www.digitalocean.com/community' },
   { name: 'Hacker News', url: 'https://news.ycombinator.com/news' },
+  { name: 'Frontend Mastery', url: 'https://frontendmastery.com' },
+  { name: 'Cloudflare Blog', url: 'https://blog.cloudflare.com' },
+  { name: 'GHacks', url: 'https://www.ghacks.net' },
+  { name: 'InfoQ', url: 'https://www.infoq.com' },
 
   # need xml crawlers
   # { name: 'JavaScript Weekly', url: 'https://cprss.s3.amazonaws.com/javascriptweekly.com.xml' },
