@@ -7,6 +7,7 @@ class JobRunResource < Avo::BaseResource
 
   field :id, as: :id, readonly: true
   field :name, as: :text, readonly: true
+  field :params, as: :text, readonly: true
   field :status,
     as: :status,
     failed_when: [:error, :warning],
