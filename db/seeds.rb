@@ -11,7 +11,7 @@ tags = %w[
   Database SQL Postgres SingleStore DB
   Apache Elasticsearch Nginx Android Ios Redis Bash Terminal Shell Host
   Linux Ubuntu Windows Azure AWS Mac PC Computer 
-  YouTube Facebook Linkedin Twitter Instagram Snapchat TikTok
+  YouTube Facebook Linkedin Twitter Instagram Snapchat TikTok GitHub
   Adobe Google Microsoft Oracle Amazon IBM Huawei Samsung Norton Xiaomi 
   ERP SAP Salesforce CRM CAD Web Desktop Mobile Graphics SAAS Agile Waterfall
   Soft Hardware Source Piracy Privacy Virus Tech Ecommerce
@@ -20,6 +20,19 @@ tags = %w[
 ]
 tags.each do |tag|
   Tag.where(name: tag, slug: tag.gsub(/[^0-9a-z ]/i, '').parameterize, parent: tag_group).first_or_create!
+end
+
+# create TO IGNORE tags
+tags = %w[
+  tiktok.com twitter.com facebook.com instagram.com reddit.com youtube.com snapchat.com github.com
+  privacy\ policy Cookie Ad\ Choices 
+  contact\ us feedback Customer\ Care Newsletter
+  Featured\ Videos Featured\ News
+  Headlines Reviews Guidelines FAQ hours\ ago hour\ ago
+  Sign\ Up Sign\ In Sign\ Out Log\ Out
+]
+tags.each do |tag|
+  Tag.where(name: tag, slug: tag.gsub(/[^0-9a-z ]/i, '').parameterize, parent: tag_group, to_ignore: true).first_or_create!
 end
 
 # create source
@@ -31,7 +44,7 @@ sources = [
   { name: 'TheNextWeb', url: 'https://thenextweb.com' },
   { name: 'Wired', url: 'https://www.wired.com' },
   { name: 'Digital Ocean Community', url: 'https://www.digitalocean.com/community' },
-  { name: 'Hacker News', url: 'https://news.ycombinator.com' },
+  { name: 'Hacker News', url: 'https://news.ycombinator.com/news' },
 
   # need xml crawlers
   # { name: 'JavaScript Weekly', url: 'https://cprss.s3.amazonaws.com/javascriptweekly.com.xml' },

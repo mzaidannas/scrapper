@@ -7,4 +7,7 @@ class Tag < ApplicationRecord
   has_many :sources
 
   include HierarchicalModel
+
+  scope :valid_tags, -> { where("to_ignore = false") }
+  scope :ignored_tags, -> { where("to_ignore = true") }
 end
