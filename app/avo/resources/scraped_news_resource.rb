@@ -6,7 +6,7 @@ class ScrapedNewsResource < Avo::BaseResource
   end
 
   field :id, as: :id
-  field :link, as: :text, format_using: -> (url) { link_to(url, url, target: '_blank') }
+  field :link, as: :text, format_using: -> (url) { url.nil? ? url : link_to(url, url, target: '_blank') }
   field :headline, as: :text
   field :description, as: :trix
   field :slug, as: :text, link_to_resource: true
