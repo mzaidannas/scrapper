@@ -9,14 +9,14 @@ tags = %w[
   Java Ruby Rails PHP Laravel Zend Python Groovy Swift Go Kotlin Matlab TypeScript Scala Script Basic Dart
   Javascript Angular Vue React V8 Node 
   Database SQL Postgres SingleStore DB
-  Apache Elasticsearch Nginx Android Ios Redis Bash Terminal Shell
+  Apache Elasticsearch Nginx Android Ios Redis Bash Terminal Shell Host
   Linux Ubuntu Windows Azure AWS Mac PC Computer 
-  YouTube Facebook Linkedin Twitter Instagram Snapchat 
+  YouTube Facebook Linkedin Twitter Instagram Snapchat TikTok
   Adobe Google Microsoft Oracle Amazon IBM Huawei Samsung Norton Xiaomi 
   ERP SAP Salesforce CRM CAD Web Desktop Mobile Graphics SAAS Agile Waterfall
   Soft Hardware Source Piracy Privacy Virus Tech Ecommerce
-  Gaming Game Graphics Audio Video 3d Engine
-  Developer Development Language Programming Program
+  Gaming Game Graphics Audio Video 3d Engine Stadia Xbox PlayStation
+  Developer Development Language Programming Program Architecture Telescope USB UI UX
 ]
 tags.each do |tag|
   Tag.where(name: tag, slug: tag.gsub(/[^0-9a-z ]/i, '').parameterize, parent: tag_group).first_or_create!

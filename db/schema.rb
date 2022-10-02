@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_29_185341) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_02_011529) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -121,6 +121,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_29_185341) do
     t.bigint "tag_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "enabled", default: true
     t.index ["tag_id"], name: "index_sources_on_tag_id"
   end
 

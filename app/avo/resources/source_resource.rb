@@ -8,6 +8,7 @@ class SourceResource < Avo::BaseResource
   field :id, as: :id
   field :name, as: :text
   field :url, as: :text
+  field :enabled, as: :boolean
   field :description, as: :trix
   field :slug, as: :text
   field :created_at, as: :date_time, format: "yyyy-LL-dd TT", timezone: "Asia/Karachi", readonly: true
