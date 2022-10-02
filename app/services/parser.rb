@@ -5,19 +5,37 @@ class Parser
 
   def self.parse(url, links, tag = 'Software')
     news = []
-    date = Time.current
-    tags = Tag.find_by(name: tag).self_and_descendants.pluck(:name)
+    date = Time.current.to_s(:db)
+    tag_group = Tag.where(level: 0, name: tag).first
+    tags = Tag.where(parent_id: tag_group.id).valid_tags.pluck(:name)
+    tags.push(tag_group.name)
+    ignored_tags = Tag.where(parent_id: tag_group.id).ignored_tags.pluck(:name)
 
     links.each do |link|
-      news_tags = []
+      next if link.nil? || link['href'].nil? ||
+        link.children.nil? || link.children.text.nil? || link.children.text.empty?
+
       news_link = link['href'].downcase
       news_headline = link.children.text
+
+      ignore_headline = false
+      ignored_tags.each do |tag|
+        if (news_link && news_link.include?(tag.downcase)) ||
+          (news_headline && news_headline.downcase.include?(tag.downcase))
+          ignore_headline = true
+          break
+        end
+      end
+      next if ignore_headline
+
+      news_tags = []
       tags.each do |tag|
         if (news_link && news_link.include?(tag.downcase)) ||
           (news_headline && news_headline.downcase.include?(tag.downcase))
           news_tags.push(tag)
        end
       end
+
       unless news_tags.empty?
         link_url = generate_url(url,news_link)
         news.push({

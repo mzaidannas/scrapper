@@ -62,6 +62,37 @@ scrape_hackernews:
     - Hacker News
     - Software
 
+scrape_frontend_mastery:
+  cron: "0 0 * * *"
+  class: "ScrapeSourceJob"
+  queue: default
+  args:
+    - Frontend Mastery
+    - Software
+
+scrape_cloudflare_blog:
+  cron: "0 0 * * *"
+  class: "ScrapeSourceJob"
+  queue: default
+  args:
+    - Cloudflare Blog
+    - Software
+
+scrape_ghacks:
+  cron: "0 0 * * *"
+  class: "ScrapeSourceJob"
+  queue: default
+  args:
+    - GHacks
+    - Software
+
+scrape_infoq:
+  cron: "0 0 * * *"
+  class: "ScrapeSourceJob"
+  queue: default
+  args:
+    - InfoQ
+    - Software
 
 job_runs_partitioning:
   cron: "0 0 1 * *"

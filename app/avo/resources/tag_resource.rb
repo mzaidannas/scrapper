@@ -8,6 +8,8 @@ class TagResource < Avo::BaseResource
   field :id, as: :id
   field :name, as: :text
   field :description, as: :trix
+  field :enabled, as: :boolean
+  field :to_ignore, as: :boolean
   field :slug, as: :text
   field :level, as: :number, readonly: true
   field :created_at, as: :date_time, format: "yyyy-LL-dd TT", timezone: "Asia/Karachi", readonly: true
