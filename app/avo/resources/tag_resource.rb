@@ -10,10 +10,10 @@ class TagResource < Avo::BaseResource
   field :description, as: :trix
   field :enabled, as: :boolean
   field :to_ignore, as: :boolean
-  field :slug, as: :text
+  field :slug, as: :text, link_to_resource: true
   field :level, as: :number, readonly: true
-  field :created_at, as: :date_time, format: "yyyy-LL-dd TT", timezone: "Asia/Karachi", readonly: true
-  field :updated_at, as: :date_time, format: "yyyy-LL-dd TT", timezone: "Asia/Karachi", readonly: true
+  field :created_at, as: :date_time, format: "yyyy-LL-dd tt", timezone: "Asia/Karachi", readonly: true
+  field :updated_at, as: :date_time, format: "yyyy-LL-dd tt", timezone: "Asia/Karachi", readonly: true
 
   field :parent, as: :belongs_to
   field :children, as: :has_many
