@@ -7,10 +7,10 @@ Avo::ApplicationController.class_eval do
 end
 
 Avo::Licensing::HQ.class_eval do
-  AvoResponse = Struct.new(:body, :parsed_response, :code, :headers)
+  AvoHttpResponse = Struct.new(:body, :parsed_response, :code, :headers)
 
   def perform_request
     body = {"id": "pro", "valid": true, payload: payload}
-    AvoResponse.new(body.to_json, body, 200, {"Content-Type" => "application/json"})
+    AvoHttpResponse.new(body.to_json, body, 200, {"Content-Type" => "application/json"})
   end
 end

@@ -14,4 +14,8 @@ class Source < ApplicationRecord
   def tag_names
     tag.present? ? [tag.name] : []
   end
+
+  def tag_names=(tag_names)
+    self.tag = Tag.find_by(name: tag_names.first)
+  end
 end
