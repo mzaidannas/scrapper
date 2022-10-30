@@ -13,6 +13,6 @@ class SourceResource < Avo::BaseResource
   field :slug, as: :text, link_to_resource: true
   field :created_at, as: :date_time, format: "yyyy-LL-dd tt", timezone: "Asia/Karachi", readonly: true
   field :updated_at, as: :date_time, format: "yyyy-LL-dd tt", timezone: "Asia/Karachi", readonly: true
-
+  field :schedule, as: :select, options: Source.schedules
   field :tag_names, as: :tags, suggestions: -> { Tag.pluck(:name) }
 end

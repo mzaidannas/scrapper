@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_02_061454) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_25_121447) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -18,6 +18,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_02_061454) do
   # Custom types defined in this database.
   # Note that some types may not work with other database engines. Be careful if changing database.
   create_enum "job_statuses", ["pending", "success", "error", "warning"]
+  create_enum "schedules", ["hourly", "daily", "weekly", "monthly", "yearly"]
   create_enum "user_types", ["admin"]
 
   create_table "job_runs", primary_key: ["name", "created_at"], force: :cascade do |t|
@@ -76,6 +77,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_02_061454) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "enabled", default: true
+    t.enum "schedule", enum_type: "schedules"
     t.index ["tag_id"], name: "index_sources_on_tag_id"
   end
 
