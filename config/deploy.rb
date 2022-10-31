@@ -114,7 +114,7 @@ task :deploy do
       in_path(fetch(:current_path)) do
         command %(mkdir -p tmp/)
         invoke :'puma:restart'
-        invoke :'update_all_jobs'
+        # invoke :'update_all_jobs'
         command %(systemctl --user restart sidekiq-#{fetch(:rails_env)})
       end
     end
