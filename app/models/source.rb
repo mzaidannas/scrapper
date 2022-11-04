@@ -21,7 +21,7 @@ class Source < ApplicationRecord
 
   def update_cron_job
     if persisted?
-      Sidekiq::Cron::Job.create(name: name, class: ScrapeSourceJob, cron: schedule, args: [name, tag.name], status: enabled)
+      Sidekiq::Cron::Job.create(name: name, class: ScrapeSourceJob, cron: schedule, args: [name, tag.name], status: enabled ? 'enabled' : 'disabled')
     else
       Sidekiq::Cron::Job.destroy(name)
     end
@@ -34,7 +34,7 @@ class Source < ApplicationRecord
         class: ScrapeSourceJob,
         cron: "@#{source.schedule}",
         args: [source.name, source.tag.name],
-        status: source.enabled
+        status: source.enabled ? 'enabled' : 'disabled'
       )
     end
   end
