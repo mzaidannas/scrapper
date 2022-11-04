@@ -76,7 +76,7 @@ module HierarchicalModel
 
   def compute_level
     return unless level_column?
-    return 0 if parent_id.blank?
+    return self.level = 0 if parent_id.blank?
 
     self.level = parent.level + 1
   end
