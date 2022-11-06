@@ -8,6 +8,7 @@ class SourceResource < Avo::BaseResource
   field :id, as: :id
   field :name, as: :text
   field :url, as: :text, format_using: -> (url) { url.nil? ? url : link_to(url, url, target: '_blank') }
+  field :logo_url, as: :external_image
   field :enabled, as: :boolean
   field :description, as: :trix
   field :slug, as: :text, link_to_resource: true
