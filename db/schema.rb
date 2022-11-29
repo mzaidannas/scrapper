@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_06_113558) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_29_104959) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -37,6 +37,60 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_06_113558) do
     t.index ["name"], name: "index_job_runs_on_name_gin", opclass: :gin_trgm_ops, using: :gin
     t.index ["name"], name: "index_job_runs_on_name_hash", using: :hash
     t.index ["params"], name: "index_job_runs_on_params", using: :gin
+  end
+
+  create_table "job_runs_y2022_m10", primary_key: ["name", "created_at"], force: :cascade do |t|
+    t.bigint "id", default: -> { "nextval('job_runs_id_seq'::regclass)" }, null: false
+    t.string "name", limit: 256, null: false
+    t.enum "status", default: "pending", null: false, enum_type: "job_statuses"
+    t.datetime "completed_at", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.string "error_message", limit: 256
+    t.text "error_detail"
+    t.jsonb "params", default: "{}", null: false
+    t.index ["completed_at"], name: "job_runs_y2022_m10_completed_at_idx"
+    t.index ["created_at"], name: "job_runs_y2022_m10_created_at_idx"
+    t.index ["id"], name: "job_runs_y2022_m10_id_idx"
+    t.index ["name"], name: "job_runs_y2022_m10_name_idx", using: :hash
+    t.index ["name"], name: "job_runs_y2022_m10_name_idx1", opclass: :gin_trgm_ops, using: :gin
+    t.index ["params"], name: "job_runs_y2022_m10_params_idx", using: :gin
+  end
+
+  create_table "job_runs_y2022_m11", primary_key: ["name", "created_at"], force: :cascade do |t|
+    t.bigint "id", default: -> { "nextval('job_runs_id_seq'::regclass)" }, null: false
+    t.string "name", limit: 256, null: false
+    t.enum "status", default: "pending", null: false, enum_type: "job_statuses"
+    t.datetime "completed_at", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.string "error_message", limit: 256
+    t.text "error_detail"
+    t.jsonb "params", default: "{}", null: false
+    t.index ["completed_at"], name: "job_runs_y2022_m11_completed_at_idx"
+    t.index ["created_at"], name: "job_runs_y2022_m11_created_at_idx"
+    t.index ["id"], name: "job_runs_y2022_m11_id_idx"
+    t.index ["name"], name: "job_runs_y2022_m11_name_idx", using: :hash
+    t.index ["name"], name: "job_runs_y2022_m11_name_idx1", opclass: :gin_trgm_ops, using: :gin
+    t.index ["params"], name: "job_runs_y2022_m11_params_idx", using: :gin
+  end
+
+  create_table "job_runs_y2022_m9", primary_key: ["name", "created_at"], force: :cascade do |t|
+    t.bigint "id", default: -> { "nextval('job_runs_id_seq'::regclass)" }, null: false
+    t.string "name", limit: 256, null: false
+    t.enum "status", default: "pending", null: false, enum_type: "job_statuses"
+    t.datetime "completed_at", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.string "error_message", limit: 256
+    t.text "error_detail"
+    t.jsonb "params", default: "{}", null: false
+    t.index ["completed_at"], name: "job_runs_y2022_m9_completed_at_idx"
+    t.index ["created_at"], name: "job_runs_y2022_m9_created_at_idx"
+    t.index ["id"], name: "job_runs_y2022_m9_id_idx"
+    t.index ["name"], name: "job_runs_y2022_m9_name_idx", using: :hash
+    t.index ["name"], name: "job_runs_y2022_m9_name_idx1", opclass: :gin_trgm_ops, using: :gin
+    t.index ["params"], name: "job_runs_y2022_m9_params_idx", using: :gin
   end
 
   create_table "news_sources", force: :cascade do |t|
@@ -77,7 +131,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_06_113558) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "enabled", default: true
-    t.enum "schedule", enum_type: "schedules"
+    t.enum "schedule", default: "hourly", enum_type: "schedules"
     t.string "logo_url"
     t.index ["tag_id"], name: "index_sources_on_tag_id"
   end
@@ -117,5 +171,4 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_06_113558) do
     t.index ["name"], name: "index_users_on_name_hash", using: :hash
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
-
 end

@@ -9,6 +9,7 @@ class Source < ApplicationRecord
   has_many :news_sources
   has_many :scraped_news, through: :news_sources
 
+  before_validation :set_slug
   after_commit :update_cron_job
 
   def tag_names
@@ -37,5 +38,11 @@ class Source < ApplicationRecord
         status: source.enabled ? 'enabled' : 'disabled'
       )
     end
+  end
+
+  private
+
+  def set_slug
+    self.slug ||= name.gsub(/[^0-9a-z ]/i, '-').parameterize
   end
 end

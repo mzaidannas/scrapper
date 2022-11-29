@@ -7,7 +7,7 @@ require 'puma/daemon'
 # and maximum; this matches the default thread size of Active Record.
 #
 max_threads_count = ENV.fetch('RAILS_MAX_THREADS', 5)
-min_threads_count = ENV.fetch('RAILS_MIN_THREADS', max_threads_count)
+min_threads_count = ENV.fetch('RAILS_MIN_THREADS') { max_threads_count }
 threads min_threads_count, max_threads_count
 
 # Specifies the `worker_timeout` threshold that Puma will use to wait before
@@ -50,7 +50,7 @@ unless ENV.fetch('RAILS_ENV', 'development') == 'development'
   #
   preload_app!
 
-  shared_dir = "/home/ubuntu/scrapper/shared"
+  shared_dir = "/home/zaid/Documents/Ruby/Rails/scrapper"
 
   # Control program(pumactl) socket path
   activate_control_app "unix://#{shared_dir}/#{ENV.fetch('CONTROLFILE', 'tmp/sockets/pumactl.sock')}", no_token: true
