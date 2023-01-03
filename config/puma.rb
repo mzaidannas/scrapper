@@ -53,7 +53,7 @@ unless ENV.fetch('RAILS_ENV', 'development') == 'development'
   shared_dir = "/home/ubuntu/scrapper/shared"
 
   # Control program(pumactl) socket path
-  activate_control_app "unix://#{shared_dir}/#{ENV.fetch('CONTROLFILE', 'tmp/sockets/pumactl.sock')}", no_token: true
+  activate_control_app "unix://#{shared_dir}/#{ENV.fetch("CONTROLFILE", "tmp/sockets/pumactl.sock")}", no_token: true
 
   # Set up socket location
   bind "unix://#{shared_dir}/tmp/sockets/puma.sock"

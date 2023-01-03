@@ -70,8 +70,8 @@ end
 
 desc 'Update cron jobs based on enabled sources'
 task :update_all_jobs do
-  comment %{Creating cron jobs from enabled sources}
-  command %{#{fetch(:rake)} update_all_jobs}
+  comment %(Creating cron jobs from enabled sources)
+  command %(#{fetch(:rake)} update_all_jobs)
 end
 
 # Put any custom commands you need to run at setup
@@ -114,8 +114,8 @@ task :deploy do
       in_path(fetch(:current_path)) do
         command %(mkdir -p tmp/)
         invoke :'puma:restart'
-        # invoke :'update_all_jobs'
         command %(systemctl --user restart sidekiq-#{fetch(:rails_env)})
+        # invoke :update_all_jobs
       end
     end
   end

@@ -2,10 +2,9 @@
 require 'digest/md5'
 
 class Parser
-
   def self.parse(url, links, tag = 'Software')
     news = []
-    date = Time.current.to_s(:db)
+    date = Time.current.to_fs(:db)
     tag_group = Tag.find_by(level: 0, name: tag)
     tags = Tag.where(parent_id: tag_group.id).valid_tags.pluck(:name)
     tags.push(tag_group.name)
@@ -20,8 +19,8 @@ class Parser
 
       ignore_headline = false
       ignored_tags.each do |tag|
-        if (news_link && news_link.include?(tag.downcase)) ||
-          (news_headline && news_headline.downcase.include?(tag.downcase))
+        if news_link&.include?(tag.downcase) ||
+            news_headline&.downcase&.include?(tag.downcase)
           ignore_headline = true
           break
         end
@@ -30,10 +29,10 @@ class Parser
 
       news_tags = []
       tags.each do |tag|
-        if (news_link && news_link.include?(tag.downcase)) ||
-          (news_headline && news_headline.downcase.include?(tag.downcase))
+        if news_link.include?(tag.downcase) ||
+            news_headline&.downcase&.include?(tag.downcase)
           news_tags.push(tag)
-       end
+        end
       end
 
       unless news_tags.empty?

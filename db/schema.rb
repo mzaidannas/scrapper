@@ -171,4 +171,5 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_29_104959) do
     t.index ["name"], name: "index_users_on_name_hash", using: :hash
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
+
 end
