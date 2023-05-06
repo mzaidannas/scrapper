@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_02_032027) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_06_144252) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -19,6 +19,17 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_02_032027) do
   # Note that some types may not work with other database engines. Be careful if changing database.
   create_enum "job_statuses", ["pending", "success", "error", "warning"]
   create_enum "user_types", ["admin"]
+
+  create_table "ignored_links", force: :cascade do |t|
+    t.string "link"
+    t.string "regex"
+    t.boolean "global", default: false
+    t.text "description"
+    t.bigint "source_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["source_id"], name: "index_ignored_links_on_source_id"
+  end
 
   create_table "job_runs", primary_key: ["name", "created_at"], force: :cascade do |t|
     t.bigserial "id", null: false
@@ -135,6 +146,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_02_032027) do
     t.datetime "updated_at", null: false
     t.boolean "to_ignore", default: false
     t.boolean "enabled", default: true
+    t.boolean "whole_word", default: true
+    t.boolean "case_sensitive", default: false
+    t.boolean "starting", default: false
+    t.boolean "ending", default: false
     t.index ["level"], name: "index_tags_on_level"
     t.index ["parent_id"], name: "index_tags_on_parent_id"
   end

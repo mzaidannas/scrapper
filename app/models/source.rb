@@ -6,6 +6,7 @@ class Source < ApplicationRecord
 
   has_many :news_sources
   has_many :scraped_news, through: :news_sources
+  has_many :ignored_links
 
   def tag_name=(tag_names)
     self.tag = Tag.find_by(name: tag_names.first)
