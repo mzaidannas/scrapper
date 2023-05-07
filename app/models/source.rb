@@ -8,6 +8,7 @@ class Source < ApplicationRecord
 
   has_many :news_sources
   has_many :scraped_news, through: :news_sources
+  has_many :ignored_links
 
   before_validation :set_slug
   after_commit :update_cron_job
