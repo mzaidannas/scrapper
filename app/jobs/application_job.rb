@@ -8,8 +8,9 @@ module ApplicationJob
   end
 
   def perform(*args)
-    job_name = self.class.name.underscore.delete_suffix!('_job').freeze
-    job_run = JobRun.create!(name: job_name, params: args.to_json)
+    # job_name = self.class.name.underscore.delete_suffix!('_job').freeze
+    job_name = "Scrapping Job - Source: #{args[0]} - TagGroup: #{args[1]}"
+    job_run = JobRun.create!(name: job_name)
     warnings = super
     record_job_run(job_run, warnings)
     true
