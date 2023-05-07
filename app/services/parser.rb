@@ -8,7 +8,7 @@ class Parser
     date = Time.current.to_s(:db)
     tag_group = Tag.where(level: 0, name: tag).first
     tag_models = Tag.where(parent_id: tag_group.id).valid_tags
-    # tag_models.push(tag_group)
+    tag_models = ([tag_models] + [tag_group]).flatten
     ignored_tags = Tag.where(parent_id: tag_group.id).ignored_tags.pluck(:name)
 
     links.each do |link|
