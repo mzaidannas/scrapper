@@ -1,16 +1,16 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "3.1.2"
+ruby "3.2.0"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 7.0.3", ">= 7.0.3.1"
+gem "rails", "~> 7.0.3", ">= 7.0.3"
 
 # The new asset pipeline for Rails [https://github.com/rails/propshaft]
 gem "propshaft"
 
 # Use postgresql as the database for Active Record
-gem "pg", "~> 1.4"
+gem "pg"
 
 # Postgresql table partitioning for job runs
 gem "pg_party"
@@ -22,7 +22,7 @@ gem "composite_primary_keys"
 gem "activerecord-cte"
 
 # Use the Puma web server [https://github.com/puma/puma]
-gem "puma", "~> 5.0"
+gem "puma"
 
 # Bundle and transpile JavaScript [https://github.com/rails/jsbundling-rails]
 gem "jsbundling-rails"
@@ -40,7 +40,7 @@ gem "cssbundling-rails"
 # gem "jbuilder"
 
 # Use Redis adapter to run Action Cable in production
-gem "redis", "~> 4.0"
+gem "redis"
 
 # Background Processing
 gem 'sidekiq'
@@ -50,6 +50,9 @@ gem 'sidekiq-cron'
 # Authentication
 gem "devise"
 
+# Authorization
+gem "pundit"
+
 # HTML parser
 gem 'nokogiri'
 
@@ -58,6 +61,9 @@ gem "avo"
 
 # Rails view component library
 gem "view_component"
+
+# Avo charts
+gem "chartkick"
 
 # Rails Object based searching (Used in AVO admin panel)
 gem "ransack"
@@ -81,7 +87,7 @@ gem "bootsnap", require: false
 # gem "sassc-rails"
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
-gem "image_processing", "~> 1.12"
+gem "image_processing"
 
 # Use .env file for environment variables
 gem "dotenv-rails"

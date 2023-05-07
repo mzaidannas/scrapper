@@ -17,7 +17,7 @@ worker_timeout 3600 if ENV.fetch('RAILS_ENV', 'development') == 'development'
 
 # Specifies the `port` that Puma will listen on to receive requests; default is 3000.
 #
-port ENV.fetch('PORT', 3000)
+port ENV.fetch('PORT', 3000) if ENV.fetch('RAILS_ENV', 'development') == 'development'
 
 # Specifies the `environment` that Puma will run in.
 #
@@ -53,21 +53,13 @@ unless ENV.fetch('RAILS_ENV', 'development') == 'development'
   shared_dir = "/home/ubuntu/scrapper/shared"
 
   # Control program(pumactl) socket path
-  activate_control_app "unix://#{shared_dir}/#{ENV.fetch('CONTROLFILE', 'tmp/sockets/pumactl.sock')}", no_token: true
+  activate_control_app "unix://#{shared_dir}/#{ENV.fetch("CONTROLFILE", "tmp/sockets/pumactl.sock")}", no_token: true
 
   # Set up socket location
   bind "unix://#{shared_dir}/tmp/sockets/puma.sock"
 
   # Logging
   stdout_redirect "#{shared_dir}/log/puma.log", "#{shared_dir}/log/puma.error.log", true
-
-  # Puma 5 experimental features
-
-  # Sleep sorting workers to improve latency
-  wait_for_less_busy_worker
-
-  # Garbage Collection Compaction for newly forked workers for reduced memory usage
-  nakayoshi_fork
 
   # Fork new workers from additional workers instead of main process
   fork_worker

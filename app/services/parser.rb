@@ -2,7 +2,6 @@
 require 'digest/md5'
 
 class Parser
-
   def self.parse(url, links, tag = 'Software')
     news = []
     date = Time.current.to_s(:db)

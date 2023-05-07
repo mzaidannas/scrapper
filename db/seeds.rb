@@ -1,8 +1,9 @@
 # Admin user
-user = User.create_with(name: 'Admin User', password: 'suhprod').find_or_create_by!(email: 'admin@scrapper.com')
+User.create_with(name: 'Admin User', password: 'suhprod').find_or_create_by!(email: 'admin@scrapper.com')
 
 # create tag group
-tag_group = Tag.where(name: 'Software', slug: 'Software'.gsub(/[^0-9a-z ]/i, '').parameterize).first_or_create!
+tag_group = Tag.create_with(name: 'Software').find_or_create_by!(slug: 'Software'.gsub(/[^0-9a-z ]/i, '').parameterize)
+Tag.create_with(name: 'Hardware').find_or_create_by!(slug: 'Hardware'.gsub(/[^0-9a-z ]/i, '').parameterize)
 
 # create tags
 tags = %w[
@@ -24,12 +25,12 @@ tags = %w[
   Developer Development Language Programming Program Architecture Telescope USB UI UX Bot
   Byte Bit Data Information
   Encrypt Dycrypt Leak Torrent LastPass KeyBase Zip Compression Hacked Cyberattack Security
-  Crypto Blockchain 
+  Crypto Blockchain
   NPM Composer Yarn
   Browser FTP Chrome Firefox Safari chromium
 ]
 tags.each do |tag|
-  Tag.where(name: tag, slug: tag.gsub(/[^0-9a-z ]/i, '').parameterize, parent: tag_group).first_or_create!
+  Tag.create_with(name: tag, parent: tag_group).find_or_create_by!(slug: tag.gsub(/[^0-9a-z ]/i, '').parameterize)
 end
 
 # create TO IGNORE tags
@@ -41,7 +42,7 @@ tags = %w[
   Sign\ Up Sign\ In Sign\ Out Log\ Out author RSS
 ]
 tags.each do |tag|
-  Tag.where(name: tag, slug: tag.gsub(/[^0-9a-z ]/i, '').parameterize, parent: tag_group, to_ignore: true).first_or_create!
+  Tag.create_with(name: tag, parent: tag_group, to_ignore: true).find_or_create_by!(slug: tag.gsub(/[^0-9a-z ]/i, '').parameterize)
 end
 
 ignored_links = %w[
@@ -72,6 +73,6 @@ sources = [
   # { name: 'JavaScript Weekly', url: 'https://cprss.s3.amazonaws.com/javascriptweekly.com.xml' },
 ]
 sources.each do |source|
-  Source.where(name: source[:name], slug: source[:name].gsub(/[^0-9a-z ]/i, '').parameterize, url: source[:url],
-               tag: tag_group).first_or_create!
+  Source.create_with(name: source[:name], url: source[:url], tag: tag_group, logo_url: source[:logo_url])
+    .find_or_create_by!(slug: source[:name].gsub(/[^0-9a-z ]/i, '').parameterize)
 end

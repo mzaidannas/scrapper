@@ -68,6 +68,12 @@ task :remote_environment do
   # invoke :'rvm:use', 'ruby-3.1.1@default'
 end
 
+desc 'Update cron jobs based on enabled sources'
+task :update_all_jobs do
+  comment %(Creating cron jobs from enabled sources)
+  command %(#{fetch(:rake)} update_all_jobs)
+end
+
 # Put any custom commands you need to run at setup
 # All paths in `shared_dirs` and `shared_paths` will be created on their own.
 task :setup do
@@ -109,6 +115,7 @@ task :deploy do
         command %(mkdir -p tmp/)
         invoke :'puma:restart'
         command %(systemctl --user restart sidekiq-#{fetch(:rails_env)})
+        # invoke :update_all_jobs
       end
     end
   end

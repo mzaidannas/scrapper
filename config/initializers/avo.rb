@@ -4,7 +4,7 @@ Avo.configure do |config|
   config.root_path = '/avo'
 
   # Where should the user be redirected when visting the `/avo` url
-  # config.home_path = nil
+  config.home_path = {controller: 'dashboards', action: 'show', id: 'main'}
 
   ## == Licensing ==
   config.license = 'community' # change this to 'pro' when you add the license key

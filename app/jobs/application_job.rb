@@ -9,7 +9,7 @@ module ApplicationJob
 
   def perform(*args)
     job_name = self.class.name.underscore.delete_suffix!('_job').freeze
-    job_run = JobRun.create!(name: job_name)
+    job_run = JobRun.create!(name: job_name, params: args.to_json)
     warnings = super
     record_job_run(job_run, warnings)
     true
