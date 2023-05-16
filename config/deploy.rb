@@ -103,7 +103,7 @@ task :deploy do
     # Put things that will set up an empty directory into a fully set-up
     # instance of your project.
     invoke :'git:clone'
-    command %(systemctl --user reload sidekiq-#{fetch(:rails_env)})
+    # command %(systemctl --user reload sidekiq-#{fetch(:rails_env)})
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
     invoke :'rails:db_create'

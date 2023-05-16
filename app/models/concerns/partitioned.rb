@@ -27,15 +27,15 @@ module Partitioned
         )
       end
 
-      unless Rails.env.development?
-        ActiveRecord::Base.connection.execute <<-SQL
-          CALL alter_old_partitions_set_access_method(
-            '#{table_name}',
-            date_trunc('#{partition_freq}', now() - interval '1 #{partition_freq}') /* older_than */,
-            'columnar'
-          );
-        SQL
-      end
+      # unless Rails.env.development?
+      #   ActiveRecord::Base.connection.execute <<-SQL
+      #     CALL alter_old_partitions_set_access_method(
+      #       '#{table_name}',
+      #       date_trunc('#{partition_freq}', now() - interval '1 #{partition_freq}') /* older_than */,
+      #       'columnar'
+      #     );
+      #   SQL
+      # end
     end
 
     def partition_name_for(day)
