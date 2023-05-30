@@ -38,7 +38,7 @@ Avo.configure do |config|
   # config.resource_controls = :right
   # config.model_resource_mapping = {}
   # config.default_view_type = :table
-  # config.per_page = 24
+  config.per_page = 12
   # config.per_page_steps = [12, 24, 48, 72]
   # config.via_per_page = 8
   config.id_links_to_resource = true

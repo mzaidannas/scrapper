@@ -16,4 +16,6 @@ class SourceResource < Avo::BaseResource
   field :updated_at, as: :date_time, format: "yyyy-LL-dd tt", timezone: "Asia/Karachi", readonly: true
   field :schedule, as: :select, options: Source.schedules
   field :tag_names, as: :tags, suggestions: -> { Tag.pluck(:name) }
+
+  action ExportCsv
 end

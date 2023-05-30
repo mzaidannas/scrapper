@@ -22,4 +22,6 @@ class UserResource < Avo::BaseResource
   field :last_sign_in_at, as: :date_time, format: "yyyy-LL-dd tt", timezone: "Asia/Karachi"
   field :current_sign_in_ip, as: :text
   field :last_sign_in_ip, as: :text
+
+  action ExportCsv
 end

@@ -1,5 +1,5 @@
 # Using alpine image for small size
-FROM ruby-3.1.2-alpine
+FROM ruby-3.2.2-alpine
 
 # Use virtual build-dependencies tag so we can remove these packages after bundle install
 RUN apk update && apk add --update --no-cache --virtual build-dependency libxml2-dev libxslt-dev build-base ruby-dev postgresql-dev git shared-mime-info

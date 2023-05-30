@@ -23,4 +23,6 @@ class TagResource < Avo::BaseResource
   field :children, as: :has_many
 
   field :sources, as: :has_many
+
+  action ExportCsv
 end

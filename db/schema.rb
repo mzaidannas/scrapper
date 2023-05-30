@@ -50,60 +50,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_06_144252) do
     t.index ["params"], name: "index_job_runs_on_params", using: :gin
   end
 
-  create_table "job_runs_y2022_m10", primary_key: ["name", "created_at"], force: :cascade do |t|
-    t.bigint "id", default: -> { "nextval('job_runs_id_seq'::regclass)" }, null: false
-    t.string "name", limit: 256, null: false
-    t.enum "status", default: "pending", null: false, enum_type: "job_statuses"
-    t.datetime "completed_at", precision: nil
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.string "error_message", limit: 256
-    t.text "error_detail"
-    t.jsonb "params", default: "{}", null: false
-    t.index ["completed_at"], name: "job_runs_y2022_m10_completed_at_idx"
-    t.index ["created_at"], name: "job_runs_y2022_m10_created_at_idx"
-    t.index ["id"], name: "job_runs_y2022_m10_id_idx"
-    t.index ["name"], name: "job_runs_y2022_m10_name_idx", using: :hash
-    t.index ["name"], name: "job_runs_y2022_m10_name_idx1", opclass: :gin_trgm_ops, using: :gin
-    t.index ["params"], name: "job_runs_y2022_m10_params_idx", using: :gin
-  end
-
-  create_table "job_runs_y2022_m11", primary_key: ["name", "created_at"], force: :cascade do |t|
-    t.bigint "id", default: -> { "nextval('job_runs_id_seq'::regclass)" }, null: false
-    t.string "name", limit: 256, null: false
-    t.enum "status", default: "pending", null: false, enum_type: "job_statuses"
-    t.datetime "completed_at", precision: nil
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.string "error_message", limit: 256
-    t.text "error_detail"
-    t.jsonb "params", default: "{}", null: false
-    t.index ["completed_at"], name: "job_runs_y2022_m11_completed_at_idx"
-    t.index ["created_at"], name: "job_runs_y2022_m11_created_at_idx"
-    t.index ["id"], name: "job_runs_y2022_m11_id_idx"
-    t.index ["name"], name: "job_runs_y2022_m11_name_idx", using: :hash
-    t.index ["name"], name: "job_runs_y2022_m11_name_idx1", opclass: :gin_trgm_ops, using: :gin
-    t.index ["params"], name: "job_runs_y2022_m11_params_idx", using: :gin
-  end
-
-  create_table "job_runs_y2022_m9", primary_key: ["name", "created_at"], force: :cascade do |t|
-    t.bigint "id", default: -> { "nextval('job_runs_id_seq'::regclass)" }, null: false
-    t.string "name", limit: 256, null: false
-    t.enum "status", default: "pending", null: false, enum_type: "job_statuses"
-    t.datetime "completed_at", precision: nil
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.string "error_message", limit: 256
-    t.text "error_detail"
-    t.jsonb "params", default: "{}", null: false
-    t.index ["completed_at"], name: "job_runs_y2022_m9_completed_at_idx"
-    t.index ["created_at"], name: "job_runs_y2022_m9_created_at_idx"
-    t.index ["id"], name: "job_runs_y2022_m9_id_idx"
-    t.index ["name"], name: "job_runs_y2022_m9_name_idx", using: :hash
-    t.index ["name"], name: "job_runs_y2022_m9_name_idx1", opclass: :gin_trgm_ops, using: :gin
-    t.index ["params"], name: "job_runs_y2022_m9_params_idx", using: :gin
-  end
-
   create_table "news_sources", force: :cascade do |t|
     t.bigint "source_id"
     t.bigint "scraped_news_id"

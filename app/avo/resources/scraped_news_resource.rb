@@ -17,4 +17,6 @@ class ScrapedNewsResource < Avo::BaseResource
 
   field :tag_names, as: :tags, suggestions: -> { Tag.pluck(:name) }
   field :source_names, as: :tags, suggestions: -> { Source.pluck(:name) }
+
+  action ExportCsv
 end
