@@ -27,6 +27,7 @@ services:
       - "6379:6379"
 
   esbuild:
+    stdin_open: true # docker run -i
     image: scrapper
     environment:
       NODE_ENV: ${NODE_ENV:-development}
@@ -37,6 +38,7 @@ services:
     command: yarn build --watch
 
   tailwind:
+    stdin_open: true # docker run -i
     image: scrapper
     environment:
       NODE_ENV: ${NODE_ENV:-development}

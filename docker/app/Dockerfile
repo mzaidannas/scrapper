@@ -1,5 +1,5 @@
 # Using alpine image for small size
-FROM ruby-3.2.2-alpine
+FROM ruby:3.2.2-alpine
 
 # Use virtual build-dependencies tag so we can remove these packages after bundle install
 RUN apk update && apk add --update --no-cache --virtual build-dependency libxml2-dev libxslt-dev build-base ruby-dev postgresql-dev git shared-mime-info
@@ -25,7 +25,7 @@ ENV SECRET_KEY_BASE $SECRET_KEY_BASE
 COPY Gemfile Gemfile
 COPY Gemfile.lock Gemfile.lock
 
-RUN gem install bundler -v 2.3.21
+RUN gem install bundler -v 2.4.10
 
 # nokogiri now bundles its own libxml2, which doesn't compile on alpine
 RUN bundle config build.nokogiri --use-system-libraries
