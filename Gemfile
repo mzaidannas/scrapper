@@ -48,7 +48,7 @@ gem 'sidekiq'
 gem 'sidekiq-cron'
 
 # Authentication
-gem "devise"
+gem "devise", '~> 4.8', '< 4.9'
 
 # Authorization
 gem "pundit"
