@@ -116,7 +116,7 @@ group :development do
 
   # Deployment
   gem "mina", require: false
-  gem "mina-puma", require: false
+  gem "mina-puma", github: 'ermacaz/mina-puma', branch: 'master', require: false
   gem "mina-sidekiq", require: false
 end
 

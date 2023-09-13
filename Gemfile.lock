@@ -1,3 +1,12 @@
+GIT
+  remote: https://github.com/ermacaz/mina-puma.git
+  revision: 1f6e427cfa920943e19c73df08056c6aa85936f4
+  branch: master
+  specs:
+    mina-puma (1.1.0)
+      mina (~> 1.2.0)
+      puma (>= 2.13)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -178,9 +187,6 @@ GEM
     mina (1.2.4)
       open4 (~> 1.3.4)
       rake
-    mina-puma (1.1.0)
-      mina (~> 1.2.0)
-      puma (>= 2.13)
     mina-sidekiq (1.1.0)
       mina (>= 1.0.2)
     mini_magick (4.12.0)
@@ -387,7 +393,7 @@ DEPENDENCIES
   jsbundling-rails
   letter_opener
   mina
-  mina-puma
+  mina-puma!
   mina-sidekiq
   nokogiri
   pg
