@@ -40,20 +40,19 @@ set :shared_files, fetch(:shared_files, []).push('config/database.yml', '.env')
 # rbenv bundler path
 # set :bundler_path, '/home/ubuntu/.rbenv/shims/bundler'
 
-set :nodenv_path, '$HOME/.nodenv'
+set :bun_path, '$HOME/.bun'
 
-task :'nodenv:load' do
-  comment %(Loading nodenv)
-  command %(export NODENV_ROOT="#{fetch(:nodenv_path)}")
-  command %(export PATH="#{fetch(:nodenv_path)}/bin:$PATH")
+task :'bun:load' do
+  comment %(Loading bun)
+  command %(export BUN_ROOT="#{fetch(:bun_path)}")
+  command %(export PATH="#{fetch(:bun_path)}/bin:$PATH")
   command %(
-    if ! which nodenv >/dev/null; then
-      echo "! nodenv not found"
-      echo "! If nodenv is installed, check your :nodenv_path setting."
+    if ! which bun >/dev/null; then
+      echo "! bun not found"
+      echo "! If bun is installed, check your :bun_path setting."
       exit 1
     fi
   )
-  command %{eval "$(nodenv init -)"}
 end
 
 # This task is the environment that is loaded for all remote run commands, such as
@@ -62,7 +61,7 @@ task :remote_environment do
   # If you're using rbenv, use this to load the rbenv environment.
   # Be sure to commit your .ruby-version or .rbenv-version to your repository.
   invoke :'rbenv:load'
-  invoke :'nodenv:load'
+  invoke :'bun:load'
 
   # For those using RVM, use this to load an RVM version@gemset.
   # invoke :'rvm:use', 'ruby-3.1.1@default'
@@ -81,10 +80,7 @@ task :setup do
   command %(git -C ~/.rbenv/plugins/ruby-build pull)
   command %(rbenv install 3.1.2 --skip-existing)
   command %(rbenv local 3.1.2)
-  command %(nodenv install 18.9.0 --skip-existing)
-  command %(nodenv local 18.9.0)
   command %(rbenv exec gem install bundler -v 2.3.21)
-  command %(nodenv exec npm install -g yarn)
 
   # Puma/Sidekiq needs a place to store its pid file and socket file.
   command %(mkdir -p "#{fetch(:deploy_to)}/#{fetch(:shared_path)}/tmp/sockets")
