@@ -4,7 +4,7 @@ require 'mina/git'
 require 'mina/rbenv'  # for rbenv support. (https://rbenv.org)
 # require 'mina/rvm'    # for rvm support. (https://rvm.io)
 require 'mina/puma'
-# require 'mina_sidekiq/tasks'
+require 'mina_sidekiq/tasks'
 
 # Basic settings:
 #   domain       - The hostname to SSH to.
@@ -99,7 +99,7 @@ task :deploy do
     # Put things that will set up an empty directory into a fully set-up
     # instance of your project.
     invoke :'git:clone'
-    # command %(systemctl --user reload sidekiq-#{fetch(:rails_env)})
+    # invoke :'sidekiq:quiet'
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
     invoke :'rails:db_create'
@@ -111,7 +111,7 @@ task :deploy do
       in_path(fetch(:current_path)) do
         command %(mkdir -p tmp/)
         invoke :'puma:restart'
-        command %(systemctl --user restart sidekiq-#{fetch(:rails_env)})
+        invoke :'sidekiq:restart'
         # invoke :update_all_jobs
       end
     end
