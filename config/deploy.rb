@@ -109,6 +109,7 @@ task :deploy do
     invoke :'rails:db_create'
     invoke :'rails:db_migrate'
     invoke :'rails:assets_precompile'
+    invoke :'rails:assets_clean'
     invoke :'deploy:cleanup'
     on :launch do
       in_path(fetch(:current_path)) do
