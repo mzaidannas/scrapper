@@ -32,7 +32,7 @@ set :shared_dirs, fetch(:shared_dirs, []).push('public/assets', 'tmp/pids', 'tmp
 set :shared_files, fetch(:shared_files, []).push('config/database.yml', '.env')
 
 # For sidekiq systemd service
-# set :init_system, :systemd
+set :init_system, :systemd
 
 # Install service in user directory
 # set :service_unit_path, '/home/ubuntu/.config/systemd/user'
