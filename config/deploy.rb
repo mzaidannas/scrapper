@@ -78,9 +78,9 @@ end
 task :setup do
   command %(curl -fsSL https://github.com/rbenv/rbenv-installer/raw/HEAD/bin/rbenv-installer | bash)
   command %(git -C ~/.rbenv/plugins/ruby-build pull)
-  command %(rbenv install 3.1.2 --skip-existing)
-  command %(rbenv local 3.1.2)
-  command %(rbenv exec gem install bundler -v 2.3.21)
+  command %(rbenv install 3.3.0 --skip-existing)
+  command %(rbenv local 3.3.0)
+  command %(rbenv exec gem install bundler -v 2.5.6)
 
   # Puma/Sidekiq needs a place to store its pid file and socket file.
   command %(mkdir -p "#{fetch(:deploy_to)}/#{fetch(:shared_path)}/tmp/sockets")
