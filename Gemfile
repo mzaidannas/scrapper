@@ -1,10 +1,10 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "3.2.2"
+ruby "3.3.0"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 7.0.3", ">= 7.0.3"
+gem "rails", "~> 7.1", ">= 7.1.1"
 
 # The new asset pipeline for Rails [https://github.com/rails/propshaft]
 gem "propshaft"
@@ -12,14 +12,8 @@ gem "propshaft"
 # Use postgresql as the database for Active Record
 gem "pg"
 
-# Postgresql table partitioning for job runs
+# Postgresql table Partitioned for job runs
 gem "pg_party"
-
-# Composite primary keys for partitioned tables
-gem "composite_primary_keys"
-
-# CTE support for active-record for hirearchial data
-gem "activerecord-cte"
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma"
@@ -48,7 +42,7 @@ gem 'sidekiq'
 gem 'sidekiq-cron'
 
 # Authentication
-gem "devise", '~> 4.8', '< 4.9'
+gem "devise", "~> 4.8", "< 4.9"
 
 # Authorization
 gem "pundit"
@@ -57,7 +51,7 @@ gem "pundit"
 gem 'nokogiri'
 
 # Admin Panel
-gem "avo"
+gem "avo", "~> 2.41", "< 3"
 
 # Rails view component library
 gem "view_component"

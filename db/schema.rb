@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_06_144252) do
+ActiveRecord::Schema[7.1].define(version: 2023_05_06_144252) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -48,6 +48,60 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_06_144252) do
     t.index ["name"], name: "index_job_runs_on_name_gin", opclass: :gin_trgm_ops, using: :gin
     t.index ["name"], name: "index_job_runs_on_name_hash", using: :hash
     t.index ["params"], name: "index_job_runs_on_params", using: :gin
+  end
+
+  create_table "job_runs_y2024_m1", primary_key: ["name", "created_at"], force: :cascade do |t|
+    t.bigint "id", default: -> { "nextval('job_runs_id_seq'::regclass)" }, null: false
+    t.string "name", limit: 256, null: false
+    t.enum "status", default: "pending", null: false, enum_type: "job_statuses"
+    t.datetime "completed_at", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.string "error_message", limit: 256
+    t.text "error_detail"
+    t.jsonb "params", default: "{}", null: false
+    t.index ["completed_at"], name: "job_runs_y2024_m1_completed_at_idx"
+    t.index ["created_at"], name: "job_runs_y2024_m1_created_at_idx"
+    t.index ["id"], name: "job_runs_y2024_m1_id_idx"
+    t.index ["name"], name: "job_runs_y2024_m1_name_idx", using: :hash
+    t.index ["name"], name: "job_runs_y2024_m1_name_idx1", opclass: :gin_trgm_ops, using: :gin
+    t.index ["params"], name: "job_runs_y2024_m1_params_idx", using: :gin
+  end
+
+  create_table "job_runs_y2024_m2", primary_key: ["name", "created_at"], force: :cascade do |t|
+    t.bigint "id", default: -> { "nextval('job_runs_id_seq'::regclass)" }, null: false
+    t.string "name", limit: 256, null: false
+    t.enum "status", default: "pending", null: false, enum_type: "job_statuses"
+    t.datetime "completed_at", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.string "error_message", limit: 256
+    t.text "error_detail"
+    t.jsonb "params", default: "{}", null: false
+    t.index ["completed_at"], name: "job_runs_y2024_m2_completed_at_idx"
+    t.index ["created_at"], name: "job_runs_y2024_m2_created_at_idx"
+    t.index ["id"], name: "job_runs_y2024_m2_id_idx"
+    t.index ["name"], name: "job_runs_y2024_m2_name_idx", using: :hash
+    t.index ["name"], name: "job_runs_y2024_m2_name_idx1", opclass: :gin_trgm_ops, using: :gin
+    t.index ["params"], name: "job_runs_y2024_m2_params_idx", using: :gin
+  end
+
+  create_table "job_runs_y2024_m3", primary_key: ["name", "created_at"], force: :cascade do |t|
+    t.bigint "id", default: -> { "nextval('job_runs_id_seq'::regclass)" }, null: false
+    t.string "name", limit: 256, null: false
+    t.enum "status", default: "pending", null: false, enum_type: "job_statuses"
+    t.datetime "completed_at", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.string "error_message", limit: 256
+    t.text "error_detail"
+    t.jsonb "params", default: "{}", null: false
+    t.index ["completed_at"], name: "job_runs_y2024_m3_completed_at_idx"
+    t.index ["created_at"], name: "job_runs_y2024_m3_created_at_idx"
+    t.index ["id"], name: "job_runs_y2024_m3_id_idx"
+    t.index ["name"], name: "job_runs_y2024_m3_name_idx", using: :hash
+    t.index ["name"], name: "job_runs_y2024_m3_name_idx1", opclass: :gin_trgm_ops, using: :gin
+    t.index ["params"], name: "job_runs_y2024_m3_params_idx", using: :gin
   end
 
   create_table "news_sources", force: :cascade do |t|
