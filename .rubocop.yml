@@ -13,3 +13,4 @@ AllCops:
 
 Style/StringLiterals:
   Enabled: false
+  EnforcedStyle: single_quotes

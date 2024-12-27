@@ -25,21 +25,29 @@
 !/tmp/storage/
 !/tmp/storage/.keep
 
+# Assets
 /public/assets
+/app/assets/builds/*
+!/app/assets/builds/.keep
+vendor/bundle
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
-
-/app/assets/builds/*
-!/app/assets/builds/.keep
+/config/credentials/*.key
 
 /node_modules
 yarn-error.log
 
+# Environment files
 .env
+.env.*
+!.env.example
 
-/config/credentials/development.key
+# IDEs
+/.idea
+/.vscode
+/.zed
+/.ruby-lsp
 
-/config/credentials/production.key
-
-vendor/bundle
+# Temporary files
+.DS_Store

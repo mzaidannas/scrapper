@@ -1,8 +1,6 @@
 require 'mina/bundler'
 require 'mina/rails'
 require 'mina/git'
-require 'mina/rbenv'  # for rbenv support. (https://rbenv.org)
-# require 'mina/rvm'    # for rvm support. (https://rvm.io)
 require 'mina/puma'
 require 'mina_sidekiq/tasks'
 
@@ -38,7 +36,7 @@ set :init_system, :systemd
 # set :service_unit_path, '/home/ubuntu/.config/systemd/user'
 
 # rbenv bundler path
-# set :bundler_path, '/home/ubuntu/.rbenv/shims/bundler'
+# set :bundler_path, '$HOME/.local/share/mise/shims/bundler'
 
 set :bun_path, '$HOME/.bun'
 
@@ -55,12 +53,26 @@ task :'bun:load' do
   )
 end
 
+set :mise_path, '$HOME/.local/share/mise'
+
+task :'mise:load' do
+  comment %(Loading mise)
+  command %(
+    if ! which mise >/dev/null; then
+      echo "! mise not found"
+      echo "! If mise is installed, check your :mise_path setting."
+      exit 1
+    fi
+  )
+  command %{eval "$(mise activate bash)"}
+end
+
 # This task is the environment that is loaded for all remote run commands, such as
 # `mina deploy` or `mina rake`.
 task :remote_environment do
   # If you're using rbenv, use this to load the rbenv environment.
   # Be sure to commit your .ruby-version or .rbenv-version to your repository.
-  invoke :'rbenv:load'
+  invoke :'mise:load'
   invoke :'bun:load'
 
   # For those using RVM, use this to load an RVM version@gemset.
@@ -76,11 +88,11 @@ end
 # Put any custom commands you need to run at setup
 # All paths in `shared_dirs` and `shared_paths` will be created on their own.
 task :setup do
-  command %(curl -fsSL https://github.com/rbenv/rbenv-installer/raw/HEAD/bin/rbenv-installer | bash)
-  command %(git -C ~/.rbenv/plugins/ruby-build pull)
-  command %(rbenv install 3.3.0 --skip-existing)
-  command %(rbenv local 3.3.0)
-  command %(rbenv exec gem install bundler -v 2.5.6)
+  command %(curl https://mise.jdx.dev/mise-latest-linux-x64 > ~/.local/bin/mise)
+  command %(chmod +x ~/.local/bin/mise)
+  command %(mise use ruby@3.4.1)
+  command %(mise use node@22.12.0)
+  command %(mise x ruby@3.4.1 -- gem update --system)
 
   # Puma/Sidekiq needs a place to store its pid file and socket file.
   command %(mkdir -p "#{fetch(:deploy_to)}/#{fetch(:shared_path)}/tmp/sockets")
