@@ -20,10 +20,10 @@ Rails.application.configure do
   # Enable server timing
   config.server_timing = true
 
-  # Enable/disable caching. By default caching is disabled.
-  # Run rails dev:cache to toggle caching.
   config.cache_store = :redis_cache_store, {url: ENV.fetch('REDIS_CACHE_URL', 'redis://localhost:6379/0')}
 
+  # Enable/disable caching. By default caching is disabled.
+  # Run rails dev:cache to toggle caching.
   if Rails.root.join("tmp/caching-dev.txt").exist?
     config.action_controller.perform_caching = true
     config.action_controller.enable_fragment_cache_logging = true
@@ -33,8 +33,6 @@ Rails.application.configure do
     }
   else
     config.action_controller.perform_caching = false
-
-    config.cache_store = :null_store
   end
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
@@ -46,7 +44,7 @@ Rails.application.configure do
   config.action_mailer.perform_caching = false
 
   # Logging in development
-  config.logger = ActiveSupport::Logger.new(STDOUT)
+  config.logger = ActiveSupport::Logger.new($stdout)
 
   config.log_level = ENV.fetch('LOG_LEVEL', :debug)
 
@@ -78,7 +76,7 @@ Rails.application.configure do
   # config.action_cable.disable_request_forgery_protection = true
 
   # For devise
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  config.action_mailer.default_url_options = {host: 'localhost', port: 3000}
   # For letter_opener
   config.action_mailer.delivery_method = :letter_opener
   config.action_mailer.perform_deliveries = true

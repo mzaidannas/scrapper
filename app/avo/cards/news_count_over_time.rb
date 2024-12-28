@@ -21,9 +21,9 @@ class NewsCountOverTime < Avo::Dashboards::ChartkickCard
 
   def query
     result [
-      { name: "Hourly", data: ScrapedNews.where(datetime: 16.hours.ago.beginning_of_hour..).group("date_trunc('hour', datetime)").count },
-      { name: "Daily", data: ScrapedNews.where(datetime: 16.days.ago.beginning_of_day..).group("date_trunc('day', datetime)").count },
-      { name: "Monthly", data: ScrapedNews.where(datetime: 16.months.ago.beginning_of_month..).group("date_trunc('month', datetime)").count }
+      {name: "Hourly", data: ScrapedNews.where(datetime: 16.hours.ago.beginning_of_hour..).group("date_trunc('hour', datetime)").count},
+      {name: "Daily", data: ScrapedNews.where(datetime: 16.days.ago.beginning_of_day..).group("date_trunc('day', datetime)").count},
+      {name: "Monthly", data: ScrapedNews.where(datetime: 16.months.ago.beginning_of_month..).group("date_trunc('month', datetime)").count}
     ]
   end
 end

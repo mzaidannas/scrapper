@@ -12,7 +12,7 @@ tags = %w[
   Database DB SQL Postgres SingleStore Migration CockroachDB NoSQL MySQL
   DevOps
   Infrastructure
-  Tree Stack Queue Sort Search Algorithm Object Pointer Class Interface Inherit 
+  Tree Stack Queue Sort Search Algorithm Object Pointer Class Interface Inherit
   Apache Elasticsearch Nginx Android iPhone iPad Ios Redis Bash Terminal Shell Server Serverless
   Linux Ubuntu Windows Azure AWS Mac PC Computer Computing
   YouTube Facebook Linkedin Twitter Instagram Snapchat TikTok GitHub Telegram Signal WhatsApp SpaceX Startup
@@ -46,7 +46,7 @@ tags.each do |tag|
 end
 
 ignored_links = %w[
-  tiktok.com twitter.com facebook.com instagram.com reddit.com youtube.com 
+  tiktok.com twitter.com facebook.com instagram.com reddit.com youtube.com
   snapchat.com github.com spotify.com t.me amazon.com linkedin.com
 ]
 ignored_links.each do |ignored_link|
@@ -55,18 +55,18 @@ end
 
 # create source
 sources = [
-  { name: 'Phoronix', url: 'https://www.phoronix.com', ignored_links: [] },
-  { name: 'Arstechnica', url: 'https://arstechnica.com', ignored_links: [] },
-  { name: 'TechCrunch', url: 'https://techcrunch.com', ignored_links: [] },
-  { name: 'Engadget', url: 'https://www.engadget.com', ignored_links: [] },
-  { name: 'TheNextWeb', url: 'https://thenextweb.com', ignored_links: [] },
-  { name: 'Wired', url: 'https://www.wired.com', ignored_links: [] },
-  { name: 'Digital Ocean Community', url: 'https://www.digitalocean.com/community', ignored_links: [] },
-  { name: 'Hacker News', url: 'https://news.ycombinator.com/news', ignored_links: [] },
-  { name: 'Frontend Mastery', url: 'https://frontendmastery.com', ignored_links: [] },
-  { name: 'Cloudflare Blog', url: 'https://blog.cloudflare.com', ignored_links: [] },
-  { name: 'GHacks', url: 'https://www.ghacks.net', ignored_links: [] },
-  { name: 'InfoQ', url: 'https://www.infoq.com/news', ignored_links: [] },
+  {name: 'Phoronix', url: 'https://www.phoronix.com', ignored_links: []},
+  {name: 'Arstechnica', url: 'https://arstechnica.com', ignored_links: []},
+  {name: 'TechCrunch', url: 'https://techcrunch.com', ignored_links: []},
+  {name: 'Engadget', url: 'https://www.engadget.com', ignored_links: []},
+  {name: 'TheNextWeb', url: 'https://thenextweb.com', ignored_links: []},
+  {name: 'Wired', url: 'https://www.wired.com', ignored_links: []},
+  {name: 'Digital Ocean Community', url: 'https://www.digitalocean.com/community', ignored_links: []},
+  {name: 'Hacker News', url: 'https://news.ycombinator.com/news', ignored_links: []},
+  {name: 'Frontend Mastery', url: 'https://frontendmastery.com', ignored_links: []},
+  {name: 'Cloudflare Blog', url: 'https://blog.cloudflare.com', ignored_links: []},
+  {name: 'GHacks', url: 'https://www.ghacks.net', ignored_links: []},
+  {name: 'InfoQ', url: 'https://www.infoq.com/news', ignored_links: []}
 
   # need xml/rss crawlers
   # { name: 'JavaScript Weekly', url: 'https://cprss.s3.amazonaws.com/javascriptweekly.com.xml' },

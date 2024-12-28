@@ -15,7 +15,7 @@ module Partitioned
     end
 
     def maintenance
-      partitions = [Date.today.public_send("prev_#{partition_freq}"), Date.today, Date.today.public_send("next_#{partition_freq}")]
+      partitions = [Time.zone.today.public_send("prev_#{partition_freq}"), Time.zone.today, Time.zone.today.public_send("next_#{partition_freq}")]
 
       partitions.each do |day|
         partition_name = partition_name_for(day)
@@ -50,7 +50,7 @@ module Partitioned
   end
 
   def check_or_create_partition
-    today = Date.today
+    today = Time.zone.today
     partition_name = self.class.partition_name_for(today)
     return if ActiveRecord::Base.connection.table_exists?(partition_name)
 
@@ -60,7 +60,7 @@ module Partitioned
       end_range: today.public_send("next_#{partition_freq}").public_send("beginning_of_#{partition_freq}")
     )
     unless Rails.env.development?
-      ActiveRecord::Base.connection.execute <<-SQL
+      ActiveRecord::Base.connection.execute <<-SQL.squish
         CALL alter_old_partitions_set_access_method(
           '#{table_name}',
           date_trunc('#{partition_freq}', now() - interval '1 #{partition_freq}') /* older_than */,

@@ -1,7 +1,6 @@
 # writer.rb
 
 class Writer
-
   def self.write(source_slug, news, tag)
     tags = Tag.find_by(name: tag).self_and_descendants.pluck(:name, :id).to_h
     source = Source.find_by(slug: source_slug)
@@ -29,7 +28,7 @@ class Writer
         end
       end
       next if ignore_news
-      
+
       ScrapedNews.transaction do
         # save news
         news_model = ScrapedNews.where(slug: n[:news][:slug]).first_or_initialize

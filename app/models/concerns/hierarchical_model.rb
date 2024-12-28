@@ -7,7 +7,7 @@ module HierarchicalModel
     belongs_to :parent, foreign_key: hierarchical_foreign_key, class_name: name, inverse_of: :children, optional: true
     has_many :children, foreign_key: hierarchical_foreign_key, class_name: name, dependent: :nullify, inverse_of: :parent
     accepts_nested_attributes_for :children,
-                                  allow_destroy: true
+      allow_destroy: true
 
     alias_attribute :parent_id, hierarchical_foreign_key if hierarchical_foreign_key != :parent_id
 

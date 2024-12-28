@@ -404,6 +404,7 @@ DEPENDENCIES
   devise (~> 4.8, < 4.9)
   dotenv-rails
   friendly_id
+  httparty
   image_processing
   jsbundling-rails
   letter_opener
