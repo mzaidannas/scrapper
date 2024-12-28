@@ -13,7 +13,7 @@ require 'mina_sidekiq/tasks'
 set :rails_env, 'production'
 
 set :application_name, 'scrapper'
-set :domain, 'scrapper.mzaidannas.me'
+set :domain, '15.207.195.182'
 set :deploy_to, '/home/ubuntu/scrapper'
 set :repository, 'git@github.com:suhprod/scrapper.git'
 set :branch, 'main'
@@ -64,7 +64,7 @@ task :'mise:load' do
       exit 1
     fi
   )
-  command %{eval "$(mise activate bash)"}
+  command %{eval "$(mise activate bash --shims)"}
 end
 
 # This task is the environment that is loaded for all remote run commands, such as
