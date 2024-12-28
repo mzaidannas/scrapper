@@ -14,19 +14,10 @@ class CreateJobRuns < ActiveRecord::Migration[7.0]
         primary key (name, created_at)
       ) PARTITION BY RANGE (created_at);
     SQL
-    unless Rails.env.development?
-      enable_extension :citus
-      execute <<-SQL
-        SELECT create_distributed_table('job_runs', 'name');
-      SQL
-    end
   end
 
   def down
     drop_table :job_runs, force: :cascade
     drop_enum :job_statuses
-    unless Rails.env.development?
-      disable_extension :citus
-    end
   end
 end

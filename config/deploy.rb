@@ -122,8 +122,8 @@ task :deploy do
     on :launch do
       in_path(fetch(:current_path)) do
         command %(mkdir -p tmp/)
-        invoke :'puma:restart'
-        invoke :'sidekiq:restart'
+        invoke :'puma:start'
+        invoke :'sidekiq:start'
         # invoke :update_all_jobs
       end
     end
