@@ -19,10 +19,10 @@ const buildCSS = async () => {
     })
   ]).process(css, {
     from: 'app/assets/tailwind/application.css',
-    to: 'app/assets/builds/application.css',
+    to: 'app/assets/builds/tailwind.css',
   })
 
-  await Bun.write('app/assets/builds/application.css', result.css)
+  await Bun.write('app/assets/builds/tailwind.css', result.css)
 };
 
 const build = async (config) => {
@@ -46,7 +46,7 @@ const build = async (config) => {
   await buildCSS();
 
   if (process.argv.includes('--watch')) {
-    fs.watch(path.join(process.cwd(), "app/javascript"), path.join(process.cwd(), "app/javascript"), { recursive: true }, (eventType, filename) => {
+    fs.watch(path.join(process.cwd(), "app/javascript"), { recursive: true }, (eventType, filename) => {
       console.log(`File changed: ${filename}. Rebuilding...`);
       build(config);
       buildCSS();
