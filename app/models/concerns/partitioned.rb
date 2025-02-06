@@ -5,7 +5,7 @@ module Partitioned
     class_attribute :partition_column, instance_writer: false, default: 'created_at'
     class_attribute :partition_freq, instance_writer: false, default: 'month'
     range_partition_by { "DATE_TRUNC('#{partition_freq}', #{partition_column})" }
-    # before_validation :check_or_create_partition
+    before_validation :check_or_create_partition
   end
 
   class_methods do
@@ -28,7 +28,7 @@ module Partitioned
       end
 
       # unless Rails.env.development?
-      #   ActiveRecord::Base.connection.execute <<-SQL
+      #   ActiveRecord::Base.connection.execute <<-SQL.squish
       #     CALL alter_old_partitions_set_access_method(
       #       '#{table_name}',
       #       date_trunc('#{partition_freq}', now() - interval '1 #{partition_freq}') /* older_than */,
@@ -59,14 +59,14 @@ module Partitioned
       start_range: today.public_send("beginning_of_#{partition_freq}"),
       end_range: today.public_send("next_#{partition_freq}").public_send("beginning_of_#{partition_freq}")
     )
-    unless Rails.env.development?
-      ActiveRecord::Base.connection.execute <<-SQL.squish
-        CALL alter_old_partitions_set_access_method(
-          '#{table_name}',
-          date_trunc('#{partition_freq}', now() - interval '1 #{partition_freq}') /* older_than */,
-          'columnar'
-        );
-      SQL
-    end
+    # unless Rails.env.development?
+    #   ActiveRecord::Base.connection.execute <<-SQL.squish
+    #     CALL alter_old_partitions_set_access_method(
+    #       '#{table_name}',
+    #       date_trunc('#{partition_freq}', now() - interval '1 #{partition_freq}') /* older_than */,
+    #       'columnar'
+    #     );
+    #   SQL
+    # end
   end
 end

@@ -5,8 +5,10 @@ ruby "3.4.1"
 
 gem 'csv'
 
+gem 'ostruct'
+
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 7.1", ">= 7.1.1"
+gem "rails", "~> 8.0", ">= 8.0.1"
 
 # The new asset pipeline for Rails [https://github.com/rails/propshaft]
 gem "propshaft"
@@ -19,9 +21,6 @@ gem "pg_party"
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma"
-
-# Bundle and transpile JavaScript [https://github.com/rails/jsbundling-rails]
-gem "jsbundling-rails"
 
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
 gem "turbo-rails"
@@ -44,7 +43,7 @@ gem 'sidekiq'
 gem 'sidekiq-cron'
 
 # Authentication
-gem "devise", "~> 4.8", "< 4.9"
+gem "devise"
 
 # Authorization
 gem "pundit"

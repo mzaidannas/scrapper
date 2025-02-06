@@ -1,0 +1,8 @@
+@import "tailwindcss" source(none);
+@source "../../../app/views";
+@source "../../../app/helpers";
+@source "../../../app/assets/stylesheets";
+@source "../../../app/javascript";
+@source "../../../app/components";
+@source "../../../safelist.txt";
+/* @config "../../../tailwind.config.js"; */

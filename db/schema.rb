@@ -10,10 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_05_06_144252) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_28_104459) do
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
-  enable_extension "plpgsql"
 
   # Custom types defined in this database.
   # Note that some types may not work with other database engines. Be careful if changing database.
@@ -186,5 +186,4 @@ ActiveRecord::Schema[7.1].define(version: 2023_05_06_144252) do
     t.index ["name"], name: "index_users_on_name_hash", using: :hash
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
-
 end

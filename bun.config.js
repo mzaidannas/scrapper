@@ -1,11 +1,28 @@
 import path from 'path';
 import fs from 'fs';
+import postcss from 'postcss';
+import tailwindcss from '@tailwindcss/postcss';
 
 const config = {
   sourcemap: "external",
   minify: true,
   entrypoints: ["app/javascript/application.js"],
   outdir: path.join(process.cwd(), "app/assets/builds"),
+};
+
+const buildCSS = async () => {
+  const css = await Bun.file('app/assets/tailwind/application.css').text()
+
+  const result = await postcss([
+    tailwindcss({
+      optimize: true
+    })
+  ]).process(css, {
+    from: 'app/assets/tailwind/application.css',
+    to: 'app/assets/builds/application.css',
+  })
+
+  await Bun.write('app/assets/builds/application.css', result.css)
 };
 
 const build = async (config) => {
@@ -26,11 +43,13 @@ const build = async (config) => {
 
 (async () => {
   await build(config);
+  await buildCSS();
 
   if (process.argv.includes('--watch')) {
-    fs.watch(path.join(process.cwd(), "app/javascript"), { recursive: true }, (eventType, filename) => {
+    fs.watch(path.join(process.cwd(), "app/javascript"), path.join(process.cwd(), "app/javascript"), { recursive: true }, (eventType, filename) => {
       console.log(`File changed: ${filename}. Rebuilding...`);
       build(config);
+      buildCSS();
     });
   } else {
     process.exit(0);

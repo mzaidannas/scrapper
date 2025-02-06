@@ -1,5 +1,5 @@
 # Using alpine image for small size
-FROM ruby:3.2.2-alpine
+FROM ruby:3.4.1-alpine
 
 # Use virtual build-dependencies tag so we can remove these packages after bundle install
 RUN apk update && apk add --update --no-cache --virtual build-dependency libxml2-dev libxslt-dev build-base ruby-dev postgresql-dev git shared-mime-info
@@ -39,13 +39,13 @@ RUN if [[ "$RAILS_ENV" == "development" ]]; then\
 
 # Remove build dependencies and install runtime dependencies
 RUN apk del build-dependency
-RUN apk add --update libxml2 libxslt shared-mime-info postgresql-client postgresql-libs nodejs yarn tzdata libcurl git
+RUN apk add --update libxml2 libxslt shared-mime-info postgresql-client postgresql-libs tzdata libcurl git
 
 # Adding project files
 COPY . .
 
 RUN if [[ "$RAILS_ENV" != "development" ]]; then\
  bundle exec rails assets:precompile; \
- else yarn; fi
+ else bun install; fi
 
 EXPOSE 3000
