@@ -1,7 +1,7 @@
 require 'mina/bundler'
 require 'mina/rails'
 require 'mina/git'
-require 'mina/puma-systemd'
+require 'mina/puma_systemd'
 require 'mina_sidekiq/tasks'
 
 # Basic settings:
