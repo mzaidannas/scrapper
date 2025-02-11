@@ -116,6 +116,7 @@ task :deploy do
     invoke :'bundle:install'
     invoke :'rails:db_create'
     invoke :'rails:db_migrate'
+    command %(bun run build)
     invoke :'rails:assets_precompile'
     invoke :'rails:assets_clean'
     invoke :'deploy:cleanup'
