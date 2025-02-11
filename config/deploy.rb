@@ -29,9 +29,9 @@ set :port, '22'              # SSH port number.
 set :shared_dirs, fetch(:shared_dirs, []).push('public/assets', 'tmp/pids', 'tmp/sockets', 'log')
 set :shared_files, fetch(:shared_files, []).push('config/database.yml', '.env')
 
-# For sidekiq systemd service
+# For sidekiq/puma systemd service
 set :init_system, :systemd
-
+set :puma_systemctl, 'systemctl --user'
 # Install service in user directory
 # set :service_unit_path, '/home/ubuntu/.config/systemd/user'
 
