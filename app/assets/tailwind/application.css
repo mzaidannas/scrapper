@@ -4,4 +4,4 @@
 @source "../../../app/assets/stylesheets";
 @source "../../../app/javascript";
 @source "../../../app/components";
-@source "../../../safelist.txt";
+@source inline("{bg,border}-{gray,red,green,blue,orange}-{600,800}");

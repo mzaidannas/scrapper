@@ -32,6 +32,8 @@ plugin :tmp_restart
 
 prune_bundler
 
+plugin :sidekiq if ENV["SIDEKIQ_EMBEDDED"]
+
 unless ENV.fetch('RAILS_ENV', 'development') == 'development'
   # Specifies the number of `workers` to boot in clustered mode.
   # Workers are forked web server processes. If using threads and workers together
