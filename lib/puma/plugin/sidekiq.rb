@@ -24,14 +24,14 @@ Puma::Plugin.create do
       sidekiq_config = YAML.load_file(Rails.root.join('config', 'sidekiq.yml'))
       env_config = sidekiq_config[Rails.env] || {}
 
-      config.concurrency = env_config['concurrency'] || sidekiq_config['concurrency'] || 10
-      config.queues = env_config['queues'] || sidekiq_config['queues']
+      config.concurrency = env_config[:concurrency] || sidekiq_config[:concurrency] || 10
+      config.queues = env_config[:queues] || sidekiq_config[:queues]
 
-      if sidekiq_config['limits']
-        sidekiq_config['limits'].each do |queue, limit|
-          config.queue_limit queue => limit
-        end
-      end
+      # if sidekiq_config[:limits]
+      #   sidekiq_config[:limits].each do |queue, limit|
+      #     config.queue_limit queue => limit
+      #   end
+      # end
     end
   end
 
