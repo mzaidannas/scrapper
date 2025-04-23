@@ -1,4 +1,2 @@
 web: bin/rails server -p 3000
-worker: bin/sidekiq -C config/sidekiq.yml
-js: bun run build --watch
-css: bun run build:css --watch
+assets: bun run build --watch

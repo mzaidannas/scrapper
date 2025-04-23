@@ -6,21 +6,11 @@ Puma::Plugin.create do
   def start(launcher)
     @log_writer = launcher.log_writer
     @puma_pid = $$
-    @sidekiq_embedded = Sidekiq.configure_embed do |config|
-      # config.logger.level = Logger::DEBUG
-      config.queues = %w[critical default low]
-      config.concurrency = 2
-    end
 
-    in_background do
-      monitor_sidekiq
-    end
+    configure_sidekiq
 
     launcher.events.on_booted do
-      @sidekiq_pid = fork do
-        Thread.new { monitor_puma }
-        sidekiq_embedded.run
-      end
+      start_sidekiq_process
     end
 
     launcher.events.on_stopped { stop_sidekiq }
@@ -29,12 +19,57 @@ Puma::Plugin.create do
 
   private
 
+  def configure_sidekiq
+    @sidekiq_embedded = Sidekiq.configure_embed do |config|
+      sidekiq_config = YAML.load_file(Rails.root.join('config', 'sidekiq.yml'))
+      env_config = sidekiq_config[Rails.env] || {}
+
+      config.concurrency = env_config['concurrency'] || sidekiq_config['concurrency'] || 10
+      config.queues = env_config['queues'] || sidekiq_config['queues']
+
+      if sidekiq_config['limits']
+        sidekiq_config['limits'].each do |queue, limit|
+          config.queue_limit queue => limit
+        end
+      end
+    end
+  end
+
+  def start_sidekiq_process
+    @sidekiq_pid = fork do
+      begin
+        Process.setproctitle("sidekiq #{Sidekiq::VERSION} scrapper [embedded]")
+        log "Starting embedded Sidekiq process..."
+        sidekiq_embedded.run
+      rescue => e
+        log "Error starting Sidekiq: #{e.message}"
+        log e.backtrace.join("\n")
+        exit(1)
+      end
+    end
+
+    # Wait briefly to ensure Sidekiq starts properly
+    sleep 2
+
+    if sidekiq_started? && !sidekiq_dead?
+      log "Sidekiq started successfully with PID #{sidekiq_pid}"
+      in_background { monitor_sidekiq }
+    else
+      log "Failed to start Sidekiq process"
+      stop_sidekiq
+      raise "Failed to start Sidekiq process"
+    end
+  end
+
   def stop_sidekiq
-    Process.waitpid(sidekiq_pid, Process::WNOHANG)
-    log "Stopping Sidekiq..."
-    Process.kill(:INT, sidekiq_pid) if sidekiq_pid
-    Process.wait(sidekiq_pid)
-  rescue Errno::ECHILD, Errno::ESRCH
+    return unless sidekiq_started?
+    begin
+      log "Stopping Sidekiq..."
+      Process.kill(:TERM, sidekiq_pid)
+      Process.wait(sidekiq_pid)
+    rescue Errno::ECHILD, Errno::ESRCH
+      # Process already gone
+    end
   end
 
   def monitor_puma
@@ -46,34 +81,43 @@ Puma::Plugin.create do
   end
 
   def monitor(process_dead, message)
+    retries = 0
     loop do
-      if send(process_dead)
-        log message
-        Process.kill(:INT, $$)
-        break
+      begin
+        if send(process_dead) && retries >= 3
+          log message
+          Process.kill(:INT, $$)
+          break
+        end
+        sleep 5  # Increased from 2 to 5 seconds
+        retries += 1 if send(process_dead)
+        retries = 0 if !send(process_dead) && retries > 0
+      rescue StandardError => e
+        log "Error monitoring process: #{e.message}"
+        sleep 5
       end
-      sleep 2
     end
   end
 
   def sidekiq_dead?
-    if sidekiq_started?
-      Process.waitpid(sidekiq_pid, Process::WNOHANG)
+    return false unless sidekiq_started?
+    begin
+      Process.kill(0, sidekiq_pid)
+      false
+    rescue Errno::ESRCH
+      true
     end
-    false
-  rescue Errno::ECHILD, Errno::ESRCH
-    true
   end
 
   def sidekiq_started?
-    sidekiq_pid.present?
+    !sidekiq_pid.nil?
   end
 
   def puma_dead?
     Process.ppid != puma_pid
   end
 
-  def log(...)
-    log_writer.log(...)
+  def log(msg)
+    log_writer.log(msg)
   end
 end
