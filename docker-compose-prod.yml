@@ -1,0 +1,16 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./docker/app/Dockerfile.prod
+      args:
+        RAILS_ENV: ${RAILS_ENV:-production}
+        RAILS_MASTER_KEY: ${RAILS_MASTER_KEY:-}
+    image: scrapper
+    ports:
+      - "3000:3000"
+    command: bundle exec puma -C config/puma.yml
+
+  worker:
+    image: scrapper
+    command: bundle exec sidekiq -C config/sidekiq.yml

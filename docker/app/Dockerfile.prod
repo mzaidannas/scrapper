@@ -1,0 +1,53 @@
+FROM ruby:3.4.1-alpine as builder
+RUN apk update --no-cache && apk add --update --no-cache nodejs libpq libc6-compat shared-mime-info libcurl tzdata
+
+FROM ruby:3.4.1-alpine as bundler
+RUN apk update --no-cache && apk add --update --no-cache binutils build-base libxml2-dev libxslt-dev curl-dev ruby-dev postgresql-dev git shared-mime-info
+WORKDIR /tmp
+RUN gem install rubygems-update -v '< 3.5' --no-doc
+RUN update_rubygems
+COPY Gemfile Gemfile.lock ./
+RUN gem install bundler:$(cat Gemfile.lock | tail -1 | tr -d " ") --no-doc
+RUN bundle config set without development:test &&\
+    bundle config set no-cache 'true' &&\
+    bundle config build.nokogiri --use-system-libraries
+RUN MAKE="make -j $(nproc)" bundle install --retry 5 -j "$(nproc)"
+RUN find /usr/local/bundle -path */gems/*.o -delete &&\
+    find /usr/local/bundle -path */gems/*.c -delete
+
+FROM builder as assets
+WORKDIR /tmp
+COPY --from=oven/bun:alpine --chown=user:group /usr/local/bin/bun /usr/local/bin/bun
+COPY --from=bundler /usr/local/bundle /usr/local/bundle
+COPY app/assets app/assets
+COPY vendor/assets vendor/assets
+COPY bin bin
+COPY config config
+COPY Rakefile Gemfile Gemfile.lock ./
+ARG RAILS_MASTER_KEY
+RUN bun bun.config.js
+RUN RAILS_ENV=production bundle exec rails assets:precompile
+
+FROM builder as app
+RUN apk add --update --no-cache tini libxml2 libcurl libxslt postgresql-libs
+RUN mkdir -p /var/www/scrapper
+WORKDIR /var/www/scrapper
+COPY --from=bundler /usr/local/bundle /usr/local/bundle
+COPY --from=assets /tmp/public/assets public/assets
+COPY . .
+# Create non-root user
+ARG UID=1000
+ARG GID=1000
+RUN addgroup -g $GID appgroup
+RUN adduser -u $UID -G appgroup -D appuser
+RUN mkdir -p -m 0700 /run/user/${UID} \
+    && chown appuser:appgroup /run/user/${UID}
+ENV XDG_RUNTIME_DIR=/run/user/${UID}
+RUN apk add libcap
+RUN setcap cap_net_bind_service=+ep /usr/local/bin/ruby
+RUN chown -R appuser:appgroup /var/www/scrapper
+USER appuser
+ENV RAILS_ENV="production"
+ARG RAILS_MASTER_KEY
+EXPOSE 3000
+ENTRYPOINT ["/sbin/tini", "--"]
