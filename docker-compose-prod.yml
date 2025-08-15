@@ -1,17 +1,16 @@
 services:
-  app:
-    build:
-      context: .
-      dockerfile: ./docker/app/Dockerfile.prod
-      args:
-        RAILS_ENV: ${RAILS_ENV:-production}
-        RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
+  common: &common
+    build: docker/app/Dockerfile.prod
     image: scrapper
+    environment:
+      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
+
+  app:
+    <<: *common
     ports:
       - "3000:3000"
     command: bundle exec puma -C config/puma.rb
-    entrypoint: []
 
   worker:
-    image: scrapper
+    <<: *common
     command: bundle exec sidekiq -C config/sidekiq.yml
