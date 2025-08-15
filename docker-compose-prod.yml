@@ -1,6 +1,8 @@
 services:
   common: &common
-    build: docker/app/Dockerfile.prod
+    build:
+      context: .
+      dockerfile: ./docker/app/Dockerfile.prod
     image: scrapper
     environment:
       RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
