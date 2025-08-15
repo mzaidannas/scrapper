@@ -39,8 +39,8 @@ RUN bun bun.config.js
 COPY . .
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
-RUN --mount=type=secret,id=rails_master_key,env=RAILS_MASTER_KEY \
-    bundle exec rails assets:precompile
+ARG RAILS_MASTER_KEY
+RUN bundle exec rails assets:precompile
 
 FROM base AS app
 RUN apk add --update --no-cache tini libxml2 libcurl libxslt postgresql-libs libpq libc6-compat shared-mime-info tzdata
