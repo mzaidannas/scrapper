@@ -21,12 +21,6 @@ port ENV.fetch('PORT', 3000) if ENV.fetch('RAILS_ENV', 'development') == 'develo
 #
 environment ENV.fetch('RAILS_ENV', 'development')
 
-# Specifies the `pidfile` that Puma will use.
-pidfile ENV.fetch('PIDFILE', 'tmp/pids/server.pid')
-
-# State path for control program (pumactl) to control puma process
-state_path ENV.fetch('STATEFILE', 'tmp/sockets/puma.state')
-
 # Allow puma to be restarted by `rails restart` command.
 plugin :tmp_restart
 
@@ -49,14 +43,6 @@ unless ENV.fetch('RAILS_ENV', 'development') == 'development'
   # process behavior so workers use less memory.
   #
   preload_app!
-
-  shared_dir = "/home/ubuntu/scrapper/shared"
-
-  # Set up socket location
-  bind "unix://#{shared_dir}/tmp/sockets/puma.sock"
-
-  # Logging
-  stdout_redirect "#{shared_dir}/log/puma.log", "#{shared_dir}/log/puma.error.log", true
 
   # Fork new workers from additional workers instead of main process
   fork_worker
