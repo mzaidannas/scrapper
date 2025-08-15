@@ -12,8 +12,8 @@ services:
   app:
     <<: *common
     ports:
-      - "3000:3000"
-    command: bundle exec puma -C config/puma.rb
+      - "3001:3000"
+    command: bundle exec puma -C config/puma.rb -p 3000
 
   worker:
     <<: *common
