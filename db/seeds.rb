@@ -1,5 +1,5 @@
 # Admin user
-User.create_with(name: 'Admin User', password: 'suhprod').find_or_create_by!(email: 'admin@scrapper.com')
+User.create_with(name: 'Admin User', password: 'suhprod@1234').find_or_create_by!(email: 'admin@scrapper.com')
 
 # create tag group
 tag_group = Tag.create_with(name: 'Software').find_or_create_by!(slug: 'Software'.gsub(/[^0-9a-z ]/i, '').parameterize)
