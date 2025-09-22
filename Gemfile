@@ -113,3 +113,5 @@ group :test do
   gem "selenium-webdriver"
   gem "webdrivers"
 end
+
+gem "reactionview", "~> 0.1.2"
